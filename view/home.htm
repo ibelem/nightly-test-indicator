@@ -6,13 +6,75 @@
     <meta name="author" content="Belem, belem.zhang@intel.com">
     <meta content="width=device-width, initial-scale=1.0, minimum-scale=0.2, maximum-scale=3.0, user-scalable=yes" name="viewport" />
     <link href="home.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Cinzel+Decorative' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        body {
+            color: #515151;
+            font: 75%/1.5 Verdana,sans-serif;
+            width: 960px;
+            margin: 0px auto;
+        }
+        header { 
+            font-family: 'Cinzel Decorative', cursive; 
+            font-size: 36px; 
+            margin: 14px 0px 10px 0px;
+        }
+        #bar { height: 6px; background-color: #1abc9c; margin-top: 0px;}
+        nav {
+            border: 1px solid #eee;
+            padding: 6px;   
+        }
+        article, footer  {
+            border: 1px solid #eee;
+            padding: 10px;   
+            margin-botton: 10px;
+        }
+        article { margin-top: -1px; }
+        nav ul {
+            list-style-type: none;
+            margin: 0px;
+            padding: 2px 0px 2px 0px;
+        }
+        nav ul li {
+            display: inline-block;
+            padding-left: 4px;
+        }
+        a:link, a:visited, a:hover {
+            color: #515151;
+        }
+        a:hover {
+            color: #1abc9c;
+            text-decoration: underline;
+        }
+
+        footer { text-align: right; margin-top: -1px; }
+    </style>
+    
   </head>
   <body>
     <header>{{ title }}</header>
-    <ul>
-      {% for entry in entries %}
-        <li>{{ escape(entry) }}</li>
-      {% end %}
-    </ul>
+    <div id="bar"></div>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="report">Report</a></li>
+        </ul>        
+    </nav>
+    <article>
+        <ul>
+          {% for entry in entries %}
+            <li>{{ escape(entry) }}</li>
+          {% end %}
+        </ul>
+
+        <form method="post" action="/form">
+            Your Name: <input id="t1" type="text" name="usrname"><br>
+            Your Password: <input id="t2" type="text" name="psd">
+            <input type="submit" text="提交">
+        </form>
+    </article>
+    <footer>
+        2014 OTC Web QA Team
+    </footer>
   </body>
 </html>
