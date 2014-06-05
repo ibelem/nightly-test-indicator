@@ -30,8 +30,8 @@ if __name__ == '__main__':
         (r'/device', uimodules.DeviceManagementHandler),
         (r'/report', uimodules.ReportHandler),
         (r'/report/([0-9]+)', uimodules.ReportDetailHandler),
-        (r'/form', uimodules.FormHandler),
         (r'/device/add/p', uimodules.DeviceManagementAddPostHandler),
+        (r'/device/delete/([0-9]+)', uimodules.DeviceManagementDeleteGetHandler),
         #template_path = os.path.join(os.path.dirname(__file__), 'templates')
     ])
     app.listen(options.port)

@@ -62,17 +62,11 @@
         </ul>        
     </nav>
     <article>
-        <ul>
-          {% for entry in entries %}
-            <li>{{ escape(entry) }}</li>
-          {% end %}
-        </ul>
-
-        <form method="post" action="/form">
-            Your Name: <input id="t1" type="text" name="usrname"><br>
-            Your Password: <input id="t2" type="text" name="psd">
-            <input type="submit" text="提交">
-        </form>
+	
+	{% for device in devices %}
+		<input name="{{ escape(device.name) }}" type="checkbox" value="feature"> {{ escape(device.name) }}<br/>
+	{% end %}
+	
     </article>
     <footer>
         2014 OTC Web QA Team

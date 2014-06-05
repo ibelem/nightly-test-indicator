@@ -29,7 +29,6 @@
             padding: 10px;   
             margin-botton: 10px;
         }
-        article { margin-top: -1px; }
         nav ul {
             list-style-type: none;
             margin: 0px;
@@ -46,8 +45,13 @@
             color: #1abc9c;
             text-decoration: underline;
         }
-	span.bd { display:inline-block; width: 92px; }
-	input[type=submit] {margin-top: 4px; width: 124px;  } 
+        span.bd { display:inline-block; width: 92px; }
+        input[type=submit] {margin-top: 6px; width: 251px; }
+        article { margin: -1px auto;  }
+        table { width: 100%; text-align: center; border-collapse:collapse;}
+        th, td { border-bottom: 1px solid #eee; padding: 4px 0px;}   
+        tr:hover { background-color: #eaeaea;}
+        form { margin: 10px auto; padding: 10px;}     
         footer { text-align: right; margin-top: -1px; }
     </style>
     
@@ -63,7 +67,31 @@
         </ul>        
     </nav>
     <article>
-        
+            
+        <table>
+            <tr>
+                <th>Device</th>
+                <th>Platform</th>
+                <th>Architecture</th>
+                <th>SDK Version</th>
+                <th>ADB USB SN</th>
+                <th>Last Modified</th>
+                <th></th>
+                <th></th>
+            </tr>
+        {% for result in results %}
+            <tr>
+                <td>{{ escape(result.name) }}</td>
+                <td>{% if result.platform ==0 %} Android {% else %} Tizen {% end %}</td>
+                <td>{% if result.architecture ==0 %} IA {% else %} ARM {% end %}</td>
+                <td>{{ escape(result.sdk) }}</td>
+                <td>{{ escape(result.serial) }}</td>
+                <td>{{ result.date }}</td>
+                <td><a href="/device/update/{{ result.id}}">Update</a></a></td>
+                <td><a href="/device/delete/{{ result.id}}">Delete</a></a></td>
+            </tr>
+        {% end %}
+        </table>
         <form method="post" action="/device/add/p">
             <span class="bd">Platform:</span> <input name="platform" id="android" type="radio" value="android" checked="checked"> Android 
                 <input name="platform" id="tizen" type="radio" value="tizen"> Tizen<br>
