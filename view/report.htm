@@ -6,7 +6,7 @@
     <meta name="author" content="Belem, belem.zhang@intel.com">
     <meta content="width=device-width, initial-scale=1.0, minimum-scale=0.2, maximum-scale=3.0, user-scalable=yes" name="viewport" />
     <link href="home.css" rel="stylesheet" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Cinzel+Decorative' rel='stylesheet' type='text/css'>
+    <!-- <link href='http://fonts.googleapis.com/css?family=Cinzel+Decorative' rel='stylesheet' type='text/css'> -->
     <style type="text/css">
         body {
             color: #515151;
@@ -15,7 +15,7 @@
             margin: 0px auto;
         }
         header { 
-            font-family: 'Cinzel Decorative', cursive; 
+            font-family: Verdana, 'Cinzel Decorative', cursive; 
             font-size: 36px; 
             margin: 14px 0px 10px 0px;
         }
@@ -48,7 +48,7 @@
             text-decoration: underline;
         }
         section { 
-            width:780px; 
+            width:776px; 
             border-left: 1px solid #eee;
             margin-left: -1px;
             height: auto;
@@ -57,14 +57,14 @@
             min-height: 480px;
         } 
         aside { 
-            width:100px; 
+            width:104px; 
             padding: 10px 20px;
             float: left;
         } 
 
         h5 { margin-bottom: 4px; }
         input[type=checkbox] { margin-left: 8px; }
-        input[type=radio] { margin-left: 12px; }
+        input[type=radio] { margin-left: 8px; }
         #spec {margin-top: 18px;}
         #build { width: 120px; margin-top: 6px;}
         #query { width: 124px; margin-top: 8px; }
@@ -79,6 +79,7 @@
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
+            <li><a href="/device">Device Management</a></li>
             <li><a href="report">Report</a></li>
         </ul>        
     </nav>  
@@ -112,7 +113,7 @@
                 <input name="groupset" id="nightly" type="radio" value="nightly" checked="checked"> Nightly
             </div> 
             <div class="filter">
-                <input name="groupbuild" id="spec" type="checkbox"> Specific build:<br/>
+                <input name="groupbuild" id="spec" type="checkbox"> Specific<br/>
                 <input name="build" id="build" type="text" value="7.36.147.0" maxlength="13"><br/>
                 <input name="submit" id="query" type="submit" value="Query">
             <div class="filter">
