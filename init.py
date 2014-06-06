@@ -28,10 +28,12 @@ if __name__ == '__main__':
     app = tornado.web.Application([
         (r'/', uimodules.HomeHandler),
         (r'/device', uimodules.DeviceManagementHandler),
+        (r'/device/edit/([0-9]+)', uimodules.DeviceManagementEditHandler),
+        (r'/device/add/p', uimodules.DeviceManagementAddPostHandler),
+        (r'/device/update/([0-9]+)', uimodules.DeviceManagementUpdatePostHandler),
+        (r'/device/delete/([0-9]+)', uimodules.DeviceManagementDeleteGetHandler),
         (r'/report', uimodules.ReportHandler),
         (r'/report/([0-9]+)', uimodules.ReportDetailHandler),
-        (r'/device/add/p', uimodules.DeviceManagementAddPostHandler),
-        (r'/device/delete/([0-9]+)', uimodules.DeviceManagementDeleteGetHandler),
         #template_path = os.path.join(os.path.dirname(__file__), 'templates')
     ])
     app.listen(options.port)
