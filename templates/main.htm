@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <meta charset='utf-8' >
+    <meta name='author' content='Belem, belem.zhang@intel.com'>
+    <meta content='width=device-width, initial-scale=1.0, minimum-scale=0.2, maximum-scale=3.0, user-scalable=yes' name='viewport' />
+    <!-- <link href='http://fonts.googleapis.com/css?family=Cinzel+Decorative' rel='stylesheet' type='text/css'> -->
+    <link rel='stylesheet' href='{{ static_url('style.css') }}' />
+    
+  </head>
+  <body>
+    <div id='container'>
+        <header>{% block header %}{{ title }}{% end %}</header>
+        <div id='bar'></div>
+        <nav>
+            <ul>
+                <li><a href='/' id='lkhome'>Home</a></li>
+                <li><a href='/report' id='lkreport'>Report</a></li>
+                <li><a href='/device'>Device</a></li>
+            </ul>
+            <!-- 
+            <ul id='lsnightly'>
+                <li><a href='/device'>Device</a></li>
+            </ul>
+            <ul id='lsfull'>
+                <li><a href='/nr'>Nightly Report</a></li>
+                <li><a href='/nt'>Nightly Trend</a></li>
+                <li><a href='/fr'>Full/Reg Report</a></li>
+                <li><a href='/ft'>Full/Reg Trend</a></li>
+            </ul>    
+            -->
+        </nav>
+        {% block body %} body {% end %}
+        <footer>
+            {% block footer %}2014 OTC Web QA Team{% end %}
+        </footer>
+    </div>
+  </body>
+</html>

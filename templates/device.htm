@@ -1,0 +1,126 @@
+{% extends "main.htm" %}
+
+{% block body %}
+
+    <div id='deleteconfirm'>You are about to delete the device<span id='sptarget'></span>, are you sure?
+        <a id='lkdelete' href=''>Delete</a> <a href='#' onclick='javascript:canceldelete()'>Undo</a>
+    </div>
+    <article>
+            
+        <table>
+            <tr>
+                <th>Device</th>
+                <th>Priority</th>
+                <th>Platform</th>
+                <th>Arch</th>
+                <th>Type</th>
+                <th>SDK</th>
+                <th>ADB SN</th>
+                <th>Asset</th>
+                <th>Last Modified</th>
+                <th></th>
+                <th></th>
+            </tr>
+        {% for result in results %}
+            <tr>
+                <td>{{ escape(result.name) }}</td>
+                <td>{{ escape(result.priority) }}</td>
+                <td>{{ escape(result.platform) }}</td>
+                <td>{{ escape(result.architecture) }}</td>
+                <td>{{ escape(result.type) }}</td>
+                <td>{{ escape(result.sdk) }}</td>
+                <td>{{ escape(result.serial) }}</td>
+                <td>
+{% if result.asset.lower().startswith('qam') %} <a href="http://jiradeploy.sh.intel.com:8080/jira/browse/{{escape(result.asset)}}">{{escape(result.asset)}}</a> {% else %} <a href="http://ec-tems.intel.com/SSG-PRC/CheckLogDetail.aspx?ClaimNo={{escape(result.asset)}}">{{escape(result.asset)}}</a> {% end %}
+</td>
+                <td>{{ result.date }}</td>
+                <td><a href='/device/edit/{{ result.id}}'>Edit</a></td>
+                <td><a href='#' onclick='javascript:confimdelete({{ result.id}}, "{{ escape(result.name) }}")'>Delete</a></td>
+            </tr>
+        {% end %}
+        </table>
+        <form method='post' action='/device/add'>
+            <span class='bd'>Platform:</span> <input name='platform' id='android' type='radio' value='Android' checked='checked'> Android 
+                <input name='platform' id='tizen' type='radio' value='Tizen'> Tizen<br>
+            <span class='bd'>Architecture:</span> <input name='architecture' id='ia' type='radio' value='IA' checked='checked'> IA
+                <input name='architecture' id='arm' type='radio' value='ARM'> ARM <br/>
+            <span class='bd'>Type:</span> <input name='type' id='phone' type='radio' value='Phone' checked='checked'> Phone
+                <input name='type' id='tablet' type='radio' value='Tablet'> Tablet 
+                <input name='type' id='laptop' type='radio' value='Laptop'> Laptop
+                <input name='type' id='nuc' type='radio' value='NUC'> NUC
+                <input name='type' id='pc' type='radio' value='PC'> PC
+                <input name='type' id='ivi' type='radio' value='IVI'> IVI
+                <input name='type' id='emulator' type='radio' value='Emulator'> Emulator<br/>            
+            <span class='bd'>Device Name:</span> <input id='devicename' type='text' name='devicename' maxlength='128' required='required'><br>
+            <span class='bd'>Priority:</span> <input type='number' id='priority' name='priority' min='0' max='4' value='2' /> 0~4 <br>
+            <span class='bd'>SDK Version:</span> <input id='sdk' type='text' name='sdk' maxlength='24'><br>
+            <span class='bd'>ADB USB S/N:</span> <input id='serial' type='text' name='serial' maxlength='64'><br>
+            <span class='bd'>Asset ID:</span> <input id='asset' type='text' name='asset' maxlength='128'> QAM-XXX or TEMS ReqNo<br>
+            <input type='submit' text='Add' value='Add'>
+        </form>
+    </article>
+ 
+    <script type='text/javascript'>
+        var candroid = $('#android');
+        var ctizen = $('#tizen');
+        var cia = $('#ia');
+        var carm = $('#arm');
+        var bsdk = $('#sdk');
+        var bserial = $('#serial');
+
+        var divdeleteconfirm = $('#deleteconfirm');
+        var lkdelete = $('#lkdelete');
+        var sptarget = $('#sptarget');
+        
+        function confimdelete(id, name) {
+            divdeleteconfirm.setAttribute('style','display: block;');
+            lkdelete.href='/device/delete/'+ id;
+            sptarget.innerHTML = ' "' + name + '"';
+        }
+
+        function canceldelete(id) {
+            divdeleteconfirm.setAttribute('style','display: none;');
+        }
+        
+        function tizencheck() {
+            if(ctizen.checked == 'false') {
+                bsdk.disabled = false;
+                bserial.disabled = false;
+            } else {
+                bsdk.disabled = true;
+                bserial.disabled = true;
+            }        
+        }
+
+        function androidcheck() {
+            bsdk.disabled = false;
+            bserial.disabled = false;
+        }
+
+        function $(selector) {
+            return document.querySelector(selector);
+        }
+
+        function init(event) {
+            if(event.target.type == 'radio' || event.target.type == 'checkbox') {
+                if(event.target.id == 'tizen') {
+                    tizencheck();
+                }
+                if(event.target.id == 'android') {
+                    androidcheck();
+                }
+            }
+        }
+
+        function addEvent(element, ename, func) {   
+            if(element.attachEvent) {   
+                 element.attachEvent('on' + ename, func);   
+             }   
+            else if(element.addEventListener){   
+                 element.addEventListener(ename, func, true);   
+             }   
+        }
+        addEvent(window, 'click', function(){ init(arguments[0]) });
+    </script>
+
+{% end %}

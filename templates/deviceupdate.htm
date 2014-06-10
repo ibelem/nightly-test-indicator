@@ -1,0 +1,107 @@
+{% extends "main.htm" %}
+
+{% block body %}
+
+    <article>
+                
+        <table>
+            <tr>
+                <th>Device</th>
+                <th>Priority</th>
+                <th>Platform</th>
+                <th>Arch</th>
+                <th>Type</th>
+                <th>SDK</th>
+                <th>ADB SN</th>
+                <th>Asset</th>
+                <th>Last Modified</th>
+                <th></th>
+            </tr>
+        <form method='post' action='/device/update/{{entry_id}}'>
+        {% for result in results %}
+            <tr>
+                <td>{% if result.id ==entry_id %} <input name='uname' id='name_{{result.id}}' type='text' value='{{result.name}}' required='required'> {% else %} {{result.name}} {% end %} </td>
+                <td>{% if result.id ==entry_id %} <input name='upriority' id='priority_{{result.priority}}' type='number' min='0' max='4' value='{{result.priority}}'> {% else %} {{result.priority}} {% end %} </td>
+                <td>{% if result.id ==entry_id %} <input name='uplatform' id='platform_{{result.platform}}' type='text' value='{{result.platform}}'> {% else %} {{result.platform}} {% end %}</td>
+                <td>{% if result.id ==entry_id %} <input name='uarchitecture' id='architecture_{{result.architecture}}' type='text' value='{{result.architecture}}'> {% else %} {{result.architecture}} {% end %}</td>
+                <td>{% if result.id ==entry_id %} <input name='utype' id='type_{{result.type}}' type='text' value='{{result.type}}'> {% else %} {{result.type}} {% end %}</td>
+                <td>{% if result.id ==entry_id %} <input name='usdk' id='sdk_{{result.sdk}}' type='text' value='{{result.sdk}}'> {% else %} {{result.sdk}} {% end %}</td>
+                <td>{% if result.id ==entry_id %} <input name='userial' id='serial_{{result.sdk}}' type='text' value='{{result.serial}}'> {% else %} {{result.serial}} {% end %}</td>  
+                <td>{% if result.id ==entry_id %} <input name='uasset' id='asset_{{result.asset}}' type='text' value='{{result.asset}}'> {% else %} {{result.asset}} {% end %}</td>           
+                <td>{{ result.date }}</td>
+                <td>{% if result.id ==entry_id %} <input name='update' id='update' type='submit' value='Update'> {% else %} {% end %}</td>     
+            </tr>
+        {% end %}
+        </form>
+        </table>
+        <form method='post' action='/device/add'>
+            <span class='bd'>Platform:</span> <input name='platform' id='android' type='radio' value='Android' checked='checked'> Android 
+                <input name='platform' id='tizen' type='radio' value='Tizen'> Tizen<br>
+            <span class='bd'>Architecture:</span> <input name='architecture' id='ia' type='radio' value='IA' checked='checked'> IA
+                <input name='architecture' id='arm' type='radio' value='ARM'> ARM <br/>
+            <span class='bd'>Type:</span> <input name='type' id='phone' type='radio' value='Phone' checked='checked'> Phone
+                <input name='type' id='tablet' type='radio' value='Tablet'> Tablet 
+                <input name='type' id='laptop' type='radio' value='Laptop'> Laptop
+                <input name='type' id='nuc' type='radio' value='NUC'> NUC
+                <input name='type' id='pc' type='radio' value='PC'> PC
+                <input name='type' id='ivi' type='radio' value='IVI'> IVI
+                <input name='type' id='emulator' type='radio' value='Emulator'> Emulator<br/>           
+            <span class='bd'>Device Name:</span> <input id='devicename' type='text' name='devicename' maxlength='128' required='required'><br>
+            <span class='bd'>Priority:</span> <input type='number' id='priority' name='priority' min='0' max='4' value='2' /> 0~4<br>
+            <span class='bd'>SDK Version:</span> <input id='sdk' type='text' name='sdk' maxlength='24'><br>
+            <span class='bd'>ADB USB S/N:</span> <input id='serial' type='text' name='serial' maxlength='64'><br>
+            <span class='bd'>Asset ID:</span> <input id='asset' type='text' name='asset' maxlength='128'> QAM-XXX or TEMS ReqNo<br>
+            <input type='submit' text='Add' value='Add'>
+        </form>
+    </article>
+
+    <script type='text/javascript'>
+        var candroid = $('#android');
+        var ctizen = $('#tizen');
+        var cia = $('#ia');
+        var carm = $('#arm');
+        var bsdk = $('#sdk');
+        var bserial = $('#serial');
+        
+        function tizencheck() {
+            if(ctizen.checked == 'false') {
+                bsdk.disabled = false;
+                bserial.disabled = false;
+            } else {
+                bsdk.disabled = true;
+                bserial.disabled = true;
+            }        
+        }
+
+        function androidcheck() {
+            bsdk.disabled = false;
+            bserial.disabled = false;
+        }
+
+        function $(selector) {
+            return document.querySelector(selector);
+        }
+
+        function init(event) {
+            if(event.target.type == 'radio' || event.target.type == 'checkbox') {
+                if(event.target.id == 'tizen') {
+                    tizencheck();
+                }
+                if(event.target.id == 'android') {
+                    androidcheck();
+                }
+            }
+        }
+
+        function addEvent(element, ename, func) {   
+            if(element.attachEvent) {   
+                 element.attachEvent('on' + ename, func);   
+             }   
+            else if(element.addEventListener){   
+                 element.addEventListener(ename, func, true);   
+             }   
+        }
+        addEvent(window, 'click', function(){ init(arguments[0]) });
+    </script>
+
+{% end %}

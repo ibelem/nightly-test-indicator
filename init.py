@@ -3,9 +3,10 @@
 import tornado.ioloop
 import tornado.web
 import tornado.httpclient
+import tornado.httpserver
 import tornado.options
 import os
-import uimodules
+import hhome, hdevice, hreport
 # pip install torndb
 # apt-get install python-mysqldb
 import torndb
@@ -23,20 +24,32 @@ define("mysql_password", default="zm179457", help="DB Password")
 v_proxy_host = 'proxy.jf.intel.com'
 v_proxy_port = 911
 
-if __name__ == '__main__':
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r'/', hhome.HomeHandler),
+            (r'/device', hdevice.DeviceManagementHandler),
+            (r'/device/edit/([0-9]+)', hdevice.DeviceManagementEditHandler),
+            (r'/device/add', hdevice.DeviceManagementAddPostHandler),
+            (r'/device/update/([0-9]+)', hdevice.DeviceManagementUpdatePostHandler),
+            (r'/device/delete/([0-9]+)', hdevice.DeviceManagementDeleteGetHandler),
+            (r'/report', hreport.ReportHandler),
+            (r'/report/([0-9]+)', hreport.ReportDetailHandler),
+        ]
+        settings = dict(
+            template_path=os.path.join(os.path.dirname(__file__), "templates"),
+            static_path=os.path.join(os.path.dirname(__file__), "static"),
+            debug=True,
+        )
+        tornado.web.Application.__init__(self, handlers, **settings)
+
+def main():
     tornado.options.parse_command_line()
-    app = tornado.web.Application([
-        (r'/', uimodules.HomeHandler),
-        (r'/device', uimodules.DeviceManagementHandler),
-        (r'/device/edit/([0-9]+)', uimodules.DeviceManagementEditHandler),
-        (r'/device/add/p', uimodules.DeviceManagementAddPostHandler),
-        (r'/device/update/([0-9]+)', uimodules.DeviceManagementUpdatePostHandler),
-        (r'/device/delete/([0-9]+)', uimodules.DeviceManagementDeleteGetHandler),
-        (r'/report', uimodules.ReportHandler),
-        (r'/report/([0-9]+)', uimodules.ReportDetailHandler),
-        #template_path = os.path.join(os.path.dirname(__file__), 'templates')
-    ])
-    app.listen(options.port)
-    tornado.ioloop.IOLoop.instance().start()
+    http_server = tornado.httpserver.HTTPServer(Application())
+    http_server.listen(options.port)
+    tornado.ioloop.IOLoop.instance().start()    
+
+if __name__ == '__main__':
+    main()
 
 
