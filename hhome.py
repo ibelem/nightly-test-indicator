@@ -3,7 +3,6 @@ import tornado
 # pip install torndb
 # apt-get install python-mysqldb
 import torndb
-import json 
 
 from tornado.options import define, options
  
@@ -18,5 +17,6 @@ class HomeHandler(tornado.web.RequestHandler):
         priorities = self.db.query('SELECT DISTINCT priority FROM crosswalk.device ORDER BY priority ASC')
         types = self.db.query('SELECT DISTINCT type FROM crosswalk.device')
         sdks = self.db.query('SELECT DISTINCT sdk FROM crosswalk.device')
+        results = self.db.query('SELECT * FROM crosswalk.reportsummary where hardware = "nightly" and profile = "android" and architecture = "ia" and branch = "canary" ORDER BY build_id DESC LIMIT 6')
         if not devices: raise tornado.web.HTTPError(404)
-        self.render("home.htm", title="Crosswalk Nightly Test Home", devices=devices, platforms=platforms, architectures=architectures, priorities=priorities, types=types, sdks=sdks)
+        self.render("home.htm", title="Crosswalk Nightly Test Report", results=results, devices=devices, platforms=platforms, architectures=architectures, priorities=priorities, types=types, sdks=sdks)

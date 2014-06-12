@@ -1,0 +1,60 @@
+{% extends "main.htm" %}
+
+{% block body %}
+    <div id='filter'>
+        <div class='csection'>
+            <div class='ctitle'>Platform:</div>
+            <ul>
+                <li><a href='#' class='selected'>All</a></li>
+                {% for platform in platforms %}
+                    <li><a href='#'>{{ escape(platform.platform) }}</a></li>
+                {% end %}
+            </ul>
+        </div>
+        <div class='csection'>
+            <div class='ctitle'>Architecture:</div>
+            <ul>
+                <li><a href='#' class='selected'>All</a>
+                {% for architecture in architectures %}
+                    <li><a href='#'>{{ escape(architecture.architecture) }}</a></li>
+                {% end %}
+            </ul>
+        </div>
+        <div class='csection'>
+            <div class='ctitle'>Priority:</div>
+            <ul>
+                <li><a href='#' class='selected'>All</a>
+                {% for priority in priorities %}
+                    <li><a href='#'>P{{ escape(priority.priority) }}</a></li>
+                {% end %}
+            </ul>
+        </div>
+        <div class='csection'>
+            <div class='ctitle'>Type:</div>
+            <ul>
+                <li><a href='#' class='selected'>All</a>
+                {% for type in types %}
+                    <li><a href='#'>{{ escape(type.type) }}</a></li>
+                {% end %}
+            </ul>
+        </div>
+        <div class='csection'>
+            <div class='ctitle'>SDK Version:</div>
+            <ul>
+                <li><a href='#' class='selected'>All</a>
+                {% for sdk in sdks %}
+                    <li><a href='#'>{{ escape(sdk.sdk) }}</a></li>
+                {% end %}
+            </ul>
+        </div>
+    </div>    
+    <article>
+	
+	{% for device in devices %}
+		<input name="{{ escape(device.name) }}" type="checkbox" value="{{ escape(device.name) }}"> {{ escape(device.name) }}<br/>
+	{% end %}
+
+    Start Time: <br/>
+    Status: Ready, In Queue, Not Available
+    </article>
+{% end %}

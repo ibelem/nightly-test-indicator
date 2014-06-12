@@ -1,6 +1,6 @@
 body {
     color: #515151;
-    font: 75%/1.5 Verdana,sans-serif;
+    font: 80%/1.5 Verdana,sans-serif;
     width: 960px;
     margin: 0px auto;
 }
@@ -12,7 +12,8 @@ header {
 #bar { height: 6px; background-color: #1abc9c; margin-top: 0px;}
 nav {
     border: 1px solid #eee;
-    padding: 6px;   
+    padding: 6px;  
+    height: 24px;
 }
 article, footer  {
     border: 1px solid #eee;
@@ -23,14 +24,23 @@ nav ul {
     list-style-type: none;
     margin: 0px;
     padding: 2px 0px 2px 0px;
+    display: inline-block;
+    float:left;
 }
 nav ul li {
     display: inline-block;
     padding-left: 4px;
 }
 
-a:link, a:visited, a:hover {
+.rnav {
+    float:right;
+}
+
+div { clear:both; }
+
+a:link, a:visited, a:active {
     color: #515151;
+    text-decoration: none;
 }
 a:hover {
     color: #1abc9c;
@@ -103,4 +113,10 @@ input[type=radio] { margin-left: 8px; }
 #build { width: 120px; margin-top: 6px;}
 #query { width: 124px; margin-top: 8px; }
 .clear {clear: both; }
+
+.cbselector { display: inline;}
+.reports { border: 1px solid #eee; }
+.reports th, .reports td { border-left: 1px solid #efefef; }
+.reports tr:nth-child(even) { background-color: #fafafa; }
+.reports tr:nth-child(even):hover { background-color: #efefef; }
  

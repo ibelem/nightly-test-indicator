@@ -6,7 +6,7 @@ import tornado.httpclient
 import tornado.httpserver
 import tornado.options
 import os
-import hhome, hdevice, hreport
+import hhome, hnightly, hdevice, hreport
 # pip install torndb
 # apt-get install python-mysqldb
 import torndb
@@ -28,6 +28,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r'/', hhome.HomeHandler),
+            (r'/nightly', hnightly.NightlyHandler),
             (r'/device', hdevice.DeviceManagementHandler),
             (r'/device/edit/([0-9]+)', hdevice.DeviceManagementEditHandler),
             (r'/device/add', hdevice.DeviceManagementAddPostHandler),

@@ -50,11 +50,49 @@
     </div>    
     <article>
 	
-	{% for device in devices %}
-		<input name="{{ escape(device.name) }}" type="checkbox" value="{{ escape(device.name) }}"> {{ escape(device.name) }}<br/>
-	{% end %}
-
-    Start Time: <br/>
-    Status: Ready, In Queue, Not Available
+        {% for device in devices %}
+            <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }} 
+        {% end %}
+        <p/>
+        <h4>Nightly Test Report</h4>
+        <table class="reports">
+            <tr>
+                <th></th>
+                {% for result in results %}
+                <th>{{escape(result.build_id)}}</th>
+                {% end %}
+            </tr>
+            <tr>
+                <td>Total TC</td>
+                {% for result in results %}
+                <td>{{ result.total_cases }}</td>
+                {% end %}
+            </tr>
+            <tr>
+                <td>Passed</td>
+                {% for result in results %}
+                <td>{{ result.total_pass }}</td>
+                {% end %}
+            </tr>
+            <tr>
+                <td>Failed</td>
+                {% for result in results %}
+                <td>{{ result.total_fail }}</td>
+                {% end %}
+            </tr>
+            <tr>
+                <td>Blocked</td>
+                {% for result in results %}
+                <td>{{ result.total_na }}</td>
+                {% end %}
+            </tr>
+            <tr>
+                <td>Pass rate</td>
+                {% for result in results %}
+                <td>{{ format(float(result.total_pass)/result.total_cases, '.0%') }}</td>
+                {% end %}
+            </tr>
+        </table>    
+ 
     </article>
 {% end %}

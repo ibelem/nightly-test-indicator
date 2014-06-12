@@ -3,7 +3,6 @@ import tornado
 # pip install torndb
 # apt-get install python-mysqldb
 import torndb
-import json 
 
 from tornado.options import define, options
   
