@@ -14,11 +14,11 @@ import torndb
 mysql_host = '127.0.0.1'
 mysql_port = 3306
 mysql_database = 'crosswalk'
-mysql_user = 'root'
-mysql_password = 'zm179457'
+mysql_user = ''
+mysql_password = '179457'
 
 protocol = 'http'
-host = 'wrt-qa-report.sh.intel.com'
+host = 'wrt-qa-report.sh'
 path = 'api/reports'
 auto_token = 'NL1sbHvpDadoM4jrml7A'
 limit_amount = '10'
