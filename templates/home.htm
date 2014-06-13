@@ -5,10 +5,7 @@
         <div class='csection'>
             <div class='ctitle'>Platform:</div>
             <ul>
-                <li><a href='#' class='selected'>All</a></li>
-                {% for platform in platforms %}
-                    <li><a href='#'>{{ escape(platform.platform) }}</a></li>
-                {% end %}
+                <li><a href='#' class='selected'>All</a></li>{% for platform in platforms %}<li><a href='#'>{{escape(platform.platform)}}</a></li>{% end %}
             </ul>
         </div>
         <div class='csection'>
@@ -54,7 +51,9 @@
             <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }} 
         {% end %}
         <p/>
-        <h4>Nightly Test Report</h4>
+
+        <h4>Nightly Test Result (Trend)</h4>
+        <h4>Nightly Test Result (Data)</h4>
         <table class="reports">
             <tr>
                 <th></th>

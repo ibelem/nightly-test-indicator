@@ -153,7 +153,7 @@ def downloadJSONFile():
 def main():
   #downloadJSONFile()
   #jsonToDB(renameJSONFile())
-  jsonToDB('2014-06-12_11-32-06_162615.json')
+  #jsonToDB('2014-06-12_11-32-06_162615.json')
 
 if __name__ == '__main__':
   main()
