@@ -67,19 +67,15 @@
         var carm = $('#arm');
         var bsdk = $('#sdk');
         var bserial = $('#serial');
-
-        var divdeleteconfirm = $('#deleteconfirm');
-        var lkdelete = $('#lkdelete');
-        var sptarget = $('#sptarget');
         
         function confimdelete(id, name) {
-            divdeleteconfirm.setAttribute('style','display: block;');
-            lkdelete.href='/device/delete/'+ id;
-            sptarget.innerHTML = ' "' + name + '"';
+            $('#lkdelete').attr('href','/device/delete/'+ id);
+            $('#sptarget').html(' "' + name + '"');
+            $('#deleteconfirm').fadeIn('slow');
         }
 
         function canceldelete(id) {
-            divdeleteconfirm.setAttribute('style','display: none;');
+            $('#deleteconfirm').fadeOut('slow');
         }
         
         function tizencheck() {

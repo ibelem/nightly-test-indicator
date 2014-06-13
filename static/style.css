@@ -1,8 +1,9 @@
 body {
     color: #515151;
     font: 80%/1.5 Verdana,sans-serif;
-    width: 960px;
+    min-width: 960px;
     margin: 0px auto;
+    max-width: 1080px;
 }
 header { 
     font-family: 'Cinzel Decorative', 'Lucida Bright', Verdana, cursive; 
@@ -116,7 +117,12 @@ input[type=radio] { margin-left: 8px; }
 
 .cbselector { display: inline;}
 .reports { border: 1px solid #eee; }
-.reports th, .reports td { border-left: 1px solid #efefef; }
-.reports tr:nth-child(even) { background-color: #fafafa; }
-.reports tr:nth-child(even):hover { background-color: #efefef; }
+.reports th, .reports td { border-left: 1px solid #efefef; padding: 2px 0px; font-weight: normal;}
+.reports th { padding: 3px 0px 2px 0px; }
+.reports tr:nth-child(even) { background-color: #fcfcfc; }
+.reports tr:hover { background-color: #f6f6f6; }
+.reports  a:link, .reports a:visited, .reports a:hover { color:#1abc9c; }
+.up { background-color: rgba(0, 255, 0, 0.05); color: rgba(0, 128, 0, 1.0); }
+.down { background-color: rgba(255, 0, 0, 0.05); color: rgba(128, 0, 0, 1.0); }
+.very { background-color: rgba(255, 0, 0, 0.2) !important; }
  

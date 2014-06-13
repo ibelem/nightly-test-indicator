@@ -14,14 +14,14 @@ import torndb
 mysql_host = '127.0.0.1'
 mysql_port = 3306
 mysql_database = 'crosswalk'
-mysql_user = ''
-mysql_password = '179457'
+mysql_user = 'root'
+mysql_password = 'zm179457'
 
 protocol = 'http'
-host = 'wrt-qa-report.sh'
+host = 'wrt-qa-report.sh.intel.com'
 path = 'api/reports'
 auto_token = 'NL1sbHvpDadoM4jrml7A'
-limit_amount = '10'
+limit_amount = '6'
 config = [protocol, host, path, auto_token, limit_amount]
 url = '%s://%s/%s/?auto_token=%s&limit_amount=%s' % tuple(config)
 filename = 'index.html?auto_token='+ auto_token + '&limit_amount=' + limit_amount
@@ -151,8 +151,8 @@ def downloadJSONFile():
     print str(ex) + ': download json file failed' 
 
 def main():
-  #downloadJSONFile()
-  #jsonToDB(renameJSONFile())
+  downloadJSONFile()
+  jsonToDB(renameJSONFile())
   #jsonToDB('2014-06-12_11-32-06_162615.json')
 
 if __name__ == '__main__':
