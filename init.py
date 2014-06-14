@@ -28,6 +28,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r'/', hhome.HomeHandler),
+            (r'/nightly/query', hnightly.NightlyQueryHandler),
             (r'/nightly', hnightly.NightlyHandler),
             (r'/device', hdevice.DeviceManagementHandler),
             (r'/device/edit/([0-9]+)', hdevice.DeviceManagementEditHandler),

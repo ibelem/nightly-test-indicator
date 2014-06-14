@@ -3,26 +3,60 @@
 {% block body %}
     <div id='filter'>
         <div class='csection'>
-            <div class='ctitle'>Platform:</div>
-            <ul>
-                <li><a href='#' class='selected'>All</a></li>{% for platform in platforms %}<li><a href='#'>{{escape(platform.platform)}}</a></li>{% end %}
-            </ul>
+            <form method='post' action='/nightly/query'>
+                <table class='deviceselect'>
+                    <tr>
+                        <th>IA Phone</th>
+                        <th>ARM Phone</th>
+                        <th>IA Tablet</th>
+                        <th>ARM Tablet</th>
+                        <th>IVI Laptop NUC</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'phone' %}
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                {% end %}
+                            {% end %}                        
+                        </td>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'phone' %}
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                {% end %}
+                            {% end %}                     
+                        </td>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'tablet' %}
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                {% end %}
+                            {% end %} 
+                        </td>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'tablet' %}
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                {% end %}
+                            {% end %} 
+                        </td>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'tizen'%}
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                {% end %}
+                            {% end %} 
+                        </td>
+                    </tr>
+                </table>
+                <input id='btquery' type='submit' text='Query' value='Query'>
+            </form>
         </div>
-        <div class='csection'>
-            <div class='ctitle'>Type:</div>
-            <ul>
-                <li><a href='#' class='selected'>All</a>
-                {% for type in types %}
-                    <li><a href='#'>{{ escape(type.type) }}</a></li>
-                {% end %}
-            </ul>
-        </div>
+ 
     </div>    
     <article>
 	
-        {% for device in devices %}
-            <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }} 
-        {% end %}
         <p/>
 
         <h4>Android IA / Canary / ZTE Geek V975</h4>
@@ -64,14 +98,14 @@
                             title: {
                                 text: 'Pass Rate(%)',
                                 style: {
-                                    color: Highcharts.getOptions().colors[0]
+                                    color: Highcharts.getOptions().colors[1]
                                 }
 
                             },
                             labels: {
                                 format: '{value}%',
                                 style: {
-                                    color: Highcharts.getOptions().colors[0]
+                                    color: Highcharts.getOptions().colors[1]
                                 }
 
                             },
@@ -109,7 +143,7 @@
                                     distance: 5,
                                     style: {
                                         color: Highcharts.getOptions().colors[0],
-                                        textShadow: '0px 1px 1px ' + Highcharts.getOptions().colors[0],
+                                        textShadow: '0px 1px 0px ' + Highcharts.getOptions().colors[0],
                                     },
                                     formatter: function() {
                                         return this.y + '%';
@@ -172,7 +206,6 @@
                         ]
                     });
             });
-
         </script>
         <div id="container" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
         
@@ -227,67 +260,79 @@
             </tr>
         </table>   
      <h4>Android IA / Canary / ASUS T00E</h4>
+<script type="text/javascript">
+    $(function () { 
+        bids = [
+                {% for result in results_asus_t00e[::-1] %}
+                    '{{result.build_id}}', 
+                {% end %}
+               ];
 
-    <script type="text/javascript">
-    $(function () {
-            $('#container2').highcharts({
-                chart: {
-                    zoomType: 'xy'
-                },
+        $('#container2').highcharts({
+                chart: {},
                 title: {
                     text: 'Android IA / Canary / ASUS T00E'
                 },
                 subtitle: {
-                    text: 'Source: http://wrt-qa-report.sh.intel.com/v2/Android/IA%20Canary/Nightly/'
+                    text: 'Source: http://wrt-qa-report.sh.intel.com/v2/Android/IA%20Canary/Temp/'
                 },
-                xAxis: [{
-                    categories: [
-                        {% for result in results[::-1] %}
-                            '{{result.build_id}}', 
-                        {% end %}
-                    ]
-                }],
-                yAxis: [{ // Primary yAxis
-                    labels: {
-                        format: '{value}',
-                        style: {
-                            color: Highcharts.getOptions().colors[1]
-                        }
-                    },
+                xAxis: {
+                    categories: bids
+                },
+                yAxis: [{
+                    allowDecimals: false,
+                    min: 0,
+                    max: 8000,
                     title: {
                         text: 'Number of TCs',
                         style: {
                             color: Highcharts.getOptions().colors[1]
                         }
                     },
-                    min: 0,
-                    max: 8000                      
-                }, { // Secondary yAxis
+                    labels: {
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                    },
+                }, {
                     title: {
-                        text: 'Pass Rate (%)',
+                        text: 'Pass Rate(%)',
                         style: {
                             color: Highcharts.getOptions().colors[0]
                         }
+
                     },
                     labels: {
                         format: '{value}%',
                         style: {
                             color: Highcharts.getOptions().colors[0]
                         }
-                    },
-                    opposite: true,
-                    min: 0,
-                    max: 100                        
-                }],
 
+                    },
+                    min: 0,
+                    max: 100,
+                    opposite: true,
+                }],
+                tooltip: {
+                    shared: true,
+                },
                 plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: false,
+                            style: {
+                                color: Highcharts.getOptions().colors[2],
+                            }
+                        }
+                    },
                     spline: {
                         dataLabels: {
                             enabled: true,
                             distance: 5,
                             style: {
-                                color: 'white',
-                                textShadow: '0px 1px 0px black'
+                                color: Highcharts.getOptions().colors[0],
+                                textShadow: '0px 1px 0px ' + Highcharts.getOptions().colors[0],
                             },
                             formatter: function() {
                                 return this.y + '%';
@@ -296,43 +341,64 @@
                     }
                 },
 
-                tooltip: {
-                    shared: true
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'left',
-                    x: 74,
-                    verticalAlign: 'top',
-                    y: 58,
-                    floating: true,
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.2)'
-                },
                 series: [{
-                    name: 'Number of TCs',
-                    type: 'column',
-                    yAxis: 0,
-                    data: [{% for result in results[::-1] %}
-                         {{ result.total_cases }}, 
-                        {% end %}],
-                    tooltip: {
-                        valueSuffix: ''
+                        type: 'column',
+                        name: 'Blocked',
+                        color: Highcharts.getOptions().colors[3],
+                        data: [
+                            {% for result in results_asus_t00e[::-1] %}
+                                {{ result.total_na }},
+                            {% end %}  
+                        ],
+                        stack: 'Nightly'
+                    }, 
+                    {
+                        type: 'column',
+                        name: 'Failed',
+                        color: Highcharts.getOptions().colors[5],
+                        data: [
+                            {% for result in results_asus_t00e[::-1] %}
+                                {{ result.total_fail }},
+                            {% end %}                            
+                    ],
+                        stack: 'Nightly'
+                    }, 
+                    {
+                         type: 'column',
+                         name: 'Passed',
+                         color: Highcharts.getOptions().colors[11],
+                         data: [
+                             {% for result in results_asus_t00e[::-1] %}
+                                 {{ result.total_pass }},
+                             {% end %}
+                         ],
+                         stack: 'Nightly'
+                     },  
+
+                    {
+                        type: 'spline',
+                        name: 'Pass Rate',
+                        color: Highcharts.getOptions().colors[0],
+                        yAxis: 1,
+                        data: [
+                            {% for result in results_asus_t00e[::-1] %}
+                             {{ result.total_pass*100/result.total_cases }}, 
+                            {% end %}
+                        ],
+                        tooltip: {
+                            valueSuffix: '%'
+                        },
+                        dataLabels: {
+                            enabled: true
+                        }
                     }
-                }, {
-                    name: 'Pass Rate (%)',
-                    type: 'spline',
-                    
-                    data: [{% for result in results[::-1] %}
-                         {{ result.total_pass*100/result.total_cases }}, 
-                        {% end %}],
-                    tooltip: {
-                        valueSuffix: '%'
-                    }                       
-                }]
+                ]
             });
-        });
-    </script>
-    <div id="container2" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+    });
+</script>
+<div id="container2" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+
+ 
 
     <br/>
 
@@ -386,165 +452,198 @@
           </tr>
       </table>   
         <h4>Tizen Common IA / Canary / Acer Aspire 5349 ZRL</h4>
-     <script type="text/javascript">
-     $(function () {
-             $('#container3').highcharts({
-                 chart: {
-                     zoomType: 'xy'
-                 },
-                 title: {
-                     text: 'Tizen Common IA / Canary / Acer Aspire 5349 ZRL'
-                 },
-                 subtitle: {
-                     text: 'Source: http://wrt-qa-report.sh.intel.com/v2/Android/IA%20Canary/Temp/'
-                 },
-                 xAxis: [{
-                     categories: [
-                         {% for result in results_tc_acer_a[::-1] %}
-                             '{{result.build_id}}', 
-                         {% end %}
-                     ]
-                 }],
-                 yAxis: [{ // Primary yAxis
-                     labels: {
-                         format: '{value}',
-                         style: {
-                             color: Highcharts.getOptions().colors[1]
-                         }
-                     },
-                     title: {
-                         text: 'Number of TCs',
-                         style: {
-                             color: Highcharts.getOptions().colors[1]
-                         }
-                     },
-                     min: 0,
-                     max: 8000                      
-                 }, { // Secondary yAxis
-                     title: {
-                         text: 'Pass Rate (%)',
-                         style: {
-                             color: Highcharts.getOptions().colors[0]
-                         }
-                     },
-                     labels: {
-                         format: '{value}%',
-                         style: {
-                             color: Highcharts.getOptions().colors[0]
-                         }
-                     },
-                     opposite: true,
-                     min: 0,
-                     max: 100                        
-                 }],
-     
-                 plotOptions: {
-                     spline: {
-                         dataLabels: {
-                             enabled: true,
-                             distance: 5,
-                             style: {
-                                 color: 'white',
-                                 textShadow: '0px 1px 0px black'
-                             },
-                             formatter: function() {
-                                 return this.y + '%';
-                             }
-                         }
-                     }
-                 },
-     
-                 tooltip: {
-                     shared: true
-                 },
-                 legend: {
-                     layout: 'vertical',
-                     align: 'left',
-                     x: 74,
-                     verticalAlign: 'top',
-                     y: 58,
-                     floating: true,
-                     backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.2)'
-                 },
-                 series: [{
-                     name: 'Number of TCs',
-                     type: 'column',
-                     yAxis: 0,
-                     data: [{% for result in results_tc_acer_a[::-1] %}
-                          {{ result.total_cases }}, 
-                         {% end %}],
-                     tooltip: {
-                         valueSuffix: ''
-                     }
-                 }, {
-                     name: 'Pass Rate (%)',
-                     type: 'spline',
-                     
-                     data: [{% for result in results_tc_acer_a[::-1] %}
-                          {{ result.total_pass*100/result.total_cases }}, 
-                         {% end %}],
-                     tooltip: {
-                         valueSuffix: '%'
-                     }                       
-                 }]
-             });
-         });
-     </script>
-     <div id="container3" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+<script type="text/javascript">
+    $(function () { 
+        bids = [
+                {% for result in results_tc_acer[::-1] %}
+                    '{{result.build_id}}', 
+                {% end %}
+               ];
+
+        $('#container3').highcharts({
+                chart: {},
+                title: {
+                    text: 'Tizen Common IA / Canary / ASUS T00E'
+                },
+                subtitle: {
+                    text: 'Source: http://wrt-qa-report.sh.intel.com/v2/Tizen/Tizen%20Common%20Canary/Nightly'
+                },
+                xAxis: {
+                    categories: bids
+                },
+                yAxis: [{
+                    allowDecimals: false,
+                    min: 0,
+                    max: 8000,
+                    title: {
+                        text: 'Number of TCs',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                    labels: {
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                    },
+                }, {
+                    title: {
+                        text: 'Pass Rate(%)',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+
+                    },
+                    labels: {
+                        format: '{value}%',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+
+                    },
+                    min: 0,
+                    max: 100,
+                    opposite: true,
+                }],
+                tooltip: {
+                    shared: true,
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: false,
+                            style: {
+                                color: Highcharts.getOptions().colors[2],
+                            }
+                        }
+                    },
+                    spline: {
+                        dataLabels: {
+                            enabled: true,
+                            distance: 5,
+                            style: {
+                                color: Highcharts.getOptions().colors[0],
+                                textShadow: '0px 1px 0px ' + Highcharts.getOptions().colors[0],
+                            },
+                            formatter: function() {
+                                return this.y + '%';
+                            }
+                        }
+                    }
+                },
+
+                series: [{
+                        type: 'column',
+                        name: 'Blocked',
+                        color: Highcharts.getOptions().colors[3],
+                        data: [
+                            {% for result in results_tc_acer[::-1] %}
+                                {{ result.total_na }},
+                            {% end %}  
+                        ],
+                        stack: 'Nightly'
+                    }, 
+                    {
+                        type: 'column',
+                        name: 'Failed',
+                        color: Highcharts.getOptions().colors[5],
+                        data: [
+                            {% for result in results_tc_acer[::-1] %}
+                                {{ result.total_fail }},
+                            {% end %}                            
+                    ],
+                        stack: 'Nightly'
+                    }, 
+                    {
+                         type: 'column',
+                         name: 'Passed',
+                         color: Highcharts.getOptions().colors[11],
+                         data: [
+                             {% for result in results_tc_acer[::-1] %}
+                                 {{ result.total_pass }},
+                             {% end %}
+                         ],
+                         stack: 'Nightly'
+                     },  
+
+                    {
+                        type: 'spline',
+                        name: 'Pass Rate',
+                        color: Highcharts.getOptions().colors[0],
+                        yAxis: 1,
+                        data: [
+                            {% for result in results_tc_acer[::-1] %}
+                             {{ result.total_pass*100/result.total_cases }}, 
+                            {% end %}
+                        ],
+                        tooltip: {
+                            valueSuffix: '%'
+                        },
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                ]
+            });
+    });
+</script>
+<div id="container3" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+
     <br/> 
       
         <table class="reports">
             <tr>
                 <th></th>
-                {% for result in results_tc_acer_a[::-1] %}
+                {% for result in results_tc_acer[::-1] %}
                 <th><a href='http://wrt-qa-report.sh.intel.com/v2/Tizen/Tizen%20Common%20Canary/Nightly/{{ result.qa_id }}'>{{escape(result.build_id)}}</a></th>
                 {% end %}
                 <th>+/-</th>
             </tr>
             <tr>
                 <td>Total TC</td>
-                {% for result in results_tc_acer_a[::-1] %}
+                {% for result in results_tc_acer[::-1] %}
                 <td>{{ result.total_cases }}</td>
                 {% end %}
-                <td class='{% if results_tc_acer_a[0].total_cases - results_tc_acer_a[1].total_cases < 0 %}{% if results_tc_acer_a[0].total_cases - results_tc_acer_a[1].total_cases < 500 %}very{% end %} down{% else %}up{% end %}'>
-                {{ results_tc_acer_a[0].total_cases - results_tc_acer_a[1].total_cases }}</td>
+                <td class='{% if results_tc_acer[0].total_cases - results_tc_acer[1].total_cases < 0 %}{% if results_tc_acer[0].total_cases - results_tc_acer[1].total_cases < 500 %}very{% end %} down{% else %}up{% end %}'>
+                {{ results_tc_acer[0].total_cases - results_tc_acer[1].total_cases }}</td>
             </tr>
             <tr>
                 <td>Passed</td>
-                {% for result in results_tc_acer_a[::-1] %}
+                {% for result in results_tc_acer[::-1] %}
                 <td>{{ result.total_pass }}</td>
                 {% end %}
-                <td class='{% if  results_tc_acer_a[0].total_pass - results_tc_acer_a[1].total_pass < 0 %}{% if results_tc_acer_a[0].total_pass - results_tc_acer_a[1].total_pass < 500 %}very{% end %} down{% else %}up{% end %}'>
-                {{ results_tc_acer_a[0].total_pass - results_tc_acer_a[1].total_pass }}</td>
+                <td class='{% if  results_tc_acer[0].total_pass - results_tc_acer[1].total_pass < 0 %}{% if results_tc_acer[0].total_pass - results_tc_acer[1].total_pass < 500 %}very{% end %} down{% else %}up{% end %}'>
+                {{ results_tc_acer[0].total_pass - results_tc_acer[1].total_pass }}</td>
             </tr>
             <tr>
                 <td>Failed</td>
-                {% for result in results_tc_acer_a[::-1] %}
+                {% for result in results_tc_acer[::-1] %}
                 <td>{{ result.total_fail }}</td>
                 {% end %}
-                <td class='{% if  results_tc_acer_a[0].total_fail - results_tc_acer_a[1].total_fail <= 0 %}up{% else %}down{% end %}'>
-                {{ results_tc_acer_a[0].total_fail - results_tc_acer_a[1].total_fail }}</td>
+                <td class='{% if  results_tc_acer[0].total_fail - results_tc_acer[1].total_fail <= 0 %}up{% else %}down{% end %}'>
+                {{ results_tc_acer[0].total_fail - results_tc_acer[1].total_fail }}</td>
             </tr>
             <tr>
                 <td>Blocked</td>
-                {% for result in results_tc_acer_a[::-1] %}
+                {% for result in results_tc_acer[::-1] %}
                 <td>{{ result.total_na }}</td>
                 {% end %}
-                <td class='{% if  results_tc_acer_a[0].total_na - results_tc_acer_a[1].total_na <= 0 %}up{% else %}down{% end %}'>
-                {{results_tc_acer_a[0].total_na - results_tc_acer_a[1].total_na}}</td>
+                <td class='{% if  results_tc_acer[0].total_na - results_tc_acer[1].total_na <= 0 %}up{% else %}down{% end %}'>
+                {{results_tc_acer[0].total_na - results_tc_acer[1].total_na}}</td>
             </tr>
             <tr>
                 <td>Pass rate</td>
-                {% for result in results_tc_acer_a[::-1] %}
+                {% for result in results_tc_acer[::-1] %}
                 <td>{{ format(float(result.total_pass)/result.total_cases, '.0%') }}</td>
                 {% end %}
-                <td class='{% if  float(results_tc_acer_a[0].total_pass)/results_tc_acer_a[0].total_cases  - float(results_tc_acer_a[1].total_pass)/results_tc_acer_a[1].total_cases < 0 %}down{% else %}up{% end %}'>
-                {{ format(float(results_tc_acer_a[0].total_pass)/results_tc_acer_a[0].total_cases - float(results_tc_acer_a[1].total_pass)/results_tc_acer_a[1].total_cases, '.1%') }}</td>
+                <td class='{% if  float(results_tc_acer[0].total_pass)/results_tc_acer[0].total_cases  - float(results_tc_acer[1].total_pass)/results_tc_acer[1].total_cases < 0 %}down{% else %}up{% end %}'>
+                {{ format(float(results_tc_acer[0].total_pass)/results_tc_acer[0].total_cases - float(results_tc_acer[1].total_pass)/results_tc_acer[1].total_cases, '.1%') }}</td>
             </tr>
         </table>   
 
         <script type='text/javascript' src='{{ static_url('highcharts/js/highcharts.js') }}'></script>
-        <script type='text/javascript' src='{{ static_url('hightcharts//js/modules/exporting.js') }}'></script>
+        <script type='text/javascript' src='{{ static_url('highcharts/js/modules/exporting.js') }}'></script>
 
     </article>
 {% end %}

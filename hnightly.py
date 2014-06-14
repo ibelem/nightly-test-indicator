@@ -5,6 +5,49 @@ import tornado
 import torndb
 
 from tornado.options import define, options
+
+class NightlyQueryHandler(tornado.web.RequestHandler):
+    def post(self):
+
+        self.db = torndb.Connection(
+        host=options.mysql_host, database=options.mysql_database,
+        user=options.mysql_user, password=options.mysql_password)
+
+        devices = self.db.query('SELECT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary)')
+        if not devices: raise tornado.web.HTTPError(404)
+        
+        selected = ''
+        num = 0
+        for device in devices:
+            try: 
+                deviceid = self.get_argument('id_' + str(device.id))
+                num = num + 1
+            except Exception, ex:
+                print ex            
+        if num > 0:
+            dvar = globals()
+            n = 0
+            for device in devices:
+                try: 
+                    deviceid = self.get_argument('id_' + str(device.id))
+                    print str(deviceid)
+                    dvar['nr%s' % n] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC LIMIT 6')
+                    if not dvar['nr%s' % n] : raise tornado.web.HTTPError(404)
+                    n = n + 1 
+                except Exception, ex:
+                    print ex  
+            l = []
+            for i in range(0, num):
+                l.append(dvar['nr%s' % i])
+            print type(l)
+            self.render("nightlyquery.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, l=l)
+
+
+        else:
+            self.redirect("/")
+
+
+
  
 class NightlyHandler(tornado.web.RequestHandler):
     def get(self):
