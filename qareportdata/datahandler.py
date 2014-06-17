@@ -72,7 +72,7 @@ def jsonToDB(file):
         try:
             result = db.query('SELECT count(*) AS total_number FROM crosswalk.reportsummary WHERE qa_id = %s ', int(qa_id))
             if int(result[0].total_number) <= 0:
-                db.execute('INSERT INTO reportsummary (qa_id, build_id, profile, branch, architecture, testtype, hardware, weeknum, srelease, title, total_cases, total_pass, total_fail, total_na, total_measured, created_at, tested_at, updated_at) '
+                db.execute('INSERT INTO reportsummary (qa_id, build_id, profile, branch, darchitecture, testtype, hardware, weeknum, srelease, title, total_cases, total_pass, total_fail, total_na, total_measured, created_at, tested_at, updated_at) '
                     'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', 
                     int(qa_id), build_id, profile, branch, architecture, testtype, hardware, int(weeknum), release, title, int(total_cases), int(total_pass), int(total_fail), int(total_na), int(total_measured), created_at, tested_at, updated_at)
                 

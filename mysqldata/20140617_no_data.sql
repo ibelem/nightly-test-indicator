@@ -36,8 +36,9 @@ CREATE TABLE `device` (
   `priority` varchar(2) DEFAULT NULL,
   `asset` varchar(64) DEFAULT NULL,
   `type` varchar(24) DEFAULT NULL,
+  `path` varchar(48) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +59,7 @@ CREATE TABLE `reportcase` (
   `bugs` varchar(128) DEFAULT NULL,
   `note` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=530246 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=551284 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +82,7 @@ CREATE TABLE `reportcategory` (
   `comments` varchar(256) DEFAULT NULL,
   `note` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6406 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6653 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +98,7 @@ CREATE TABLE `reportsummary` (
   `build_id` varchar(16) DEFAULT NULL,
   `profile` varchar(24) DEFAULT NULL,
   `branch` varchar(12) DEFAULT NULL,
-  `architecture` varchar(24) DEFAULT NULL,
+  `darchitecture` varchar(24) DEFAULT NULL,
   `testtype` varchar(36) DEFAULT NULL,
   `device` varchar(128) DEFAULT NULL,
   `hardware` varchar(36) DEFAULT NULL,
@@ -114,7 +115,7 @@ CREATE TABLE `reportsummary` (
   `updated_at` varchar(32) DEFAULT NULL,
   `note` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,4 +135,4 @@ CREATE TABLE `reportsummary` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-13  8:46:19
+-- Dump completed on 2014-06-17 16:50:18

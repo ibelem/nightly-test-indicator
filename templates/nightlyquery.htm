@@ -16,35 +16,35 @@
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'phone' %}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
                                 {% end %}
                             {% end %}                        
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'phone' %}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
                                 {% end %}
                             {% end %}                     
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'tablet' %}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
                                 {% end %}
                             {% end %} 
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'tablet' %}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
                                 {% end %}
                             {% end %} 
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'tizen'%}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
                                 {% end %}
                             {% end %} 
                         </td>
@@ -53,20 +53,254 @@
                 <input id='btquery' type='submit' text='Query' value='Query'>
             </form>
         </div>
- 
-    </div>    
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                {% for list in d %}
+                    $('#id_{{ list }}').attr('checked','checked');
+                {% end %}            
+            });
+        </script>
+    </div> 
+   <div id='distype'>
+       <ul>
+           <li id='all' class='dison'>Both</li>
+           <li id='chart'>Charts</li>
+           <li id='data'>Data</li>
+       </ul>
+   </div>   
     <article>
-	
-        <p/>
-        
-        {% for list in l %}
-            {% for lv in list %}
-                <div>{{ lv.platform }} {{ lv.architecture }} {{ lv.branch }} {{ lv.name }} {{ lv.build_id }}</div>
-            {% end %}
+ 
+        {% for list in l[::-1] %}
+            <h4>{{ list[0].platform }} / {{ list[0].architecture }} / {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].name }}</h4>
+
+            <script type="text/javascript">
+                $(function () { 
+                    bids = [
+                            {% for lv in list[::-1] %}
+                                '{{lv.build_id}}', 
+                            {% end %}
+                           ];
+            
+                    $('#container_'+{{ list[0].device }}).highcharts({
+                            chart: {},
+                            title: {
+                                text: '{{ list[0].platform }} / {{ list[0].architecture }} / {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].name }}'
+                            },
+                            subtitle: {
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ list[0].platform }}/IA%20Canary/Nightly/'
+                            },
+                            xAxis: {
+                                categories: bids
+                            },
+                            yAxis: [{
+                                allowDecimals: false,
+                                min: 0,
+                                max: 8000,
+                                title: {
+                                    text: 'Number of TCs',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[1]
+                                    }
+                                },
+                                labels: {
+                                        style: {
+                                            color: Highcharts.getOptions().colors[1]
+                                        }
+                                },
+                            }, {
+                                title: {
+                                    text: 'Pass Rate(%)',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[1]
+                                    }
+            
+                                },
+                                labels: {
+                                    format: '{value}%',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[1]
+                                    }
+            
+                                },
+                                min: 20,
+                                max: 100,
+                                opposite: true,
+                            }],
+                            tooltip: {
+                                shared: true,
+                            },
+                            /*
+                                legend: {
+                                    layout: 'vertical',
+                                    align: 'left',
+                                    x: 74,
+                                    verticalAlign: 'top',
+                                    y: 58,
+                                    floating: true,
+                                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.2)'
+                                },
+                            */
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal',
+                                    dataLabels: {
+                                        enabled: false,
+                                        style: {
+                                            color: Highcharts.getOptions().colors[2],
+                                        }
+                                    }
+                                },
+                                spline: {
+                                    dataLabels: {
+                                        enabled: true,
+                                        distance: 5,
+                                        style: {
+                                            color: Highcharts.getOptions().colors[0],
+                                            textShadow: '0px 1px 0px ' + Highcharts.getOptions().colors[0],
+                                        },
+                                        formatter: function() {
+                                            return this.y + '%';
+                                        }
+                                    }
+                                }
+                            },
+            
+                            series: [{
+                                    type: 'column',
+                                    name: 'Blocked',
+                                    color: Highcharts.getOptions().colors[3],
+                                    data: [
+                                        {% for lv in list[::-1] %}
+                                            {{ lv.total_na }},
+                                        {% end %}  
+                                    ],
+                                    stack: 'Nightly'
+                                }, 
+                                {
+                                    type: 'column',
+                                    name: 'Failed',
+                                    color: Highcharts.getOptions().colors[5],
+                                    data: [
+                                        {% for lv in list[::-1] %}
+                                            {{ lv.total_fail }},
+                                        {% end %}                            
+                                ],
+                                    stack: 'Nightly'
+                                }, 
+                                {
+                                     type: 'column',
+                                     name: 'Passed',
+                                     color: Highcharts.getOptions().colors[11],
+                                     data: [
+                                         {% for lv in list[::-1] %}
+                                             {{ lv.total_pass }},
+                                         {% end %}
+                                     ],
+                                     stack: 'Nightly'
+                                 },  
+            
+                                {
+                                    type: 'spline',
+                                    name: 'Pass Rate',
+                                    color: Highcharts.getOptions().colors[0],
+                                    yAxis: 1,
+                                    data: [
+                                        {% for lv in list[::-1] %}
+                                            {{ round(float(lv.total_pass)*100/lv.total_cases, 0) }},
+                                        {% end %}
+                                    ],
+                                    tooltip: {
+                                        valueSuffix: '%'
+                                    },
+                                    dataLabels: {
+                                        enabled: true
+                                    }
+                                }
+                            ]
+                        });
+                });
+            </script>
+            <div id="container_{{ list[0].device }}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+            <table class="reports">
+                <tr>
+                    <th></th>
+                    {% for lv in list[::-1] %}
+                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/Android/IA%20Canary/Nightly/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
+                    {% end %}
+                    <th>+/-</th>
+                </tr>
+                <tr>
+                    <td>Total TC</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ lv.total_cases }}</td>
+                    {% end %}
+                    <td class='{% if list[0].total_cases - list[1].total_cases < 0 %}{% if list[0].total_cases - list[1].total_cases < 300 %}very{% end %} down{% else %}up{% end %}'>
+                    {{ list[0].total_cases - list[1].total_cases }}</td>
+                </tr>
+                <tr>
+                    <td>Passed</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ lv.total_pass }}</td>
+                    {% end %}
+                    <td class='{% if  list[0].total_pass - list[1].total_pass < 0 %}{% if list[0].total_pass - list[1].total_pass < 300 %}very{% end %} down{% else %}up{% end %}'>
+                    {{ list[0].total_pass - list[1].total_pass }}</td>
+                </tr>
+                <tr>
+                    <td>Failed</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ lv.total_fail }}</td>
+                    {% end %}
+                    <td class='{% if  list[0].total_fail - list[1].total_fail <= 0 %}up{% else %}down{% end %}'>
+                    {{ list[0].total_fail - list[1].total_fail }}</td>
+                </tr>
+                <tr>
+                    <td>Blocked</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ lv.total_na }}</td>
+                    {% end %}
+                    <td class='{% if  list[0].total_na - list[1].total_na <= 0 %}up{% else %}down{% end %}'>
+                    {{list[0].total_na - list[1].total_na}}</td>
+                </tr>
+                <tr>
+                    <td>Pass rate</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ format(float(lv.total_pass)/lv.total_cases, '.0%') }}</td>
+                    {% end %}
+                    <td class='{% if  float(list[0].total_pass)/list[0].total_cases  - float(list[1].total_pass)/list[1].total_cases < 0 %}down{% else %}up{% end %}'>
+                    {{ format(float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases, '.1%') }}</td>
+                </tr>
+            </table>  
         {% end %}
 
         <script type='text/javascript' src='{{ static_url('highcharts/js/highcharts.js') }}'></script>
         <script type='text/javascript' src='{{ static_url('highcharts/js/modules/exporting.js') }}'></script>
-
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#all').click(function() {
+                    $('div[id^="container"]').slideDown("slow");
+                    $("h4").slideDown("slow");
+                    $("table.reports").slideDown("slow");
+                    $('#all').attr('class','dison');
+                    $('#chart').removeClass('dison');
+                    $('#data').removeClass('dison');
+                });
+               $('#chart').click(function() {
+                   $('div[id^="container"]').slideDown("slow");
+                   $("h4").slideUp("fast");
+                   $("table.reports").slideUp("fast");
+                   $('#all').removeClass('dison');
+                   $('#chart').attr('class','dison');
+                   $('#data').removeClass('dison');
+               }); 
+               $('#data').click(function() {
+                   $('div[id^="container"]').slideUp("fast");
+                   $("h4").slideDown("slow");
+                   $("table.reports").slideDown("slow");
+                   $('#all').removeClass('dison');
+                   $('#chart').removeClass('dison');
+                   $('#data').attr('class','dison');
+               });        
+            });
+        </script>
     </article>
 {% end %}

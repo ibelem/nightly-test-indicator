@@ -26,29 +26,28 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
                 print ex            
         if num > 0:
             dvar = globals()
+            lvar = globals()
             n = 0
             for device in devices:
                 try: 
                     deviceid = self.get_argument('id_' + str(device.id))
                     print str(deviceid)
-                    dvar['nr%s' % n] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC LIMIT 6')
-                    if not dvar['nr%s' % n] : raise tornado.web.HTTPError(404)
+                    dvar['di%s' % n] = str(device.id)
+                    lvar['nr%s' % n] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 18')
+                    if not lvar['nr%s' % n] : raise tornado.web.HTTPError(404)
                     n = n + 1 
                 except Exception, ex:
                     print ex  
+            d= []
+            for j in range(0, num):
+                d.append(dvar['di%s' % j]) 
             l = []
             for i in range(0, num):
-                l.append(dvar['nr%s' % i])
-            print type(l)
-            self.render("nightlyquery.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, l=l)
-
-
+                l.append(lvar['nr%s' % i])
+            self.render("nightlyquery.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=d, l=l)
         else:
             self.redirect("/")
 
-
-
- 
 class NightlyHandler(tornado.web.RequestHandler):
     def get(self):
         self.db = torndb.Connection(
