@@ -29,7 +29,11 @@ table td input[type=text] { width: 60px; }
 table td input[type=number] { width: 40px; }
 table td input[id^=name] { width: 100px;}
 #update { width: 60px; }
-#filter { border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px dotted #eee; padding: 6px 0px; margin-top: -1px;}
+#filter { border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee; margin-top: -1px;}
+.fullr { border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px dotted #eee; padding: 6px 0px; margin-top: -1px; text-align: center; }
+.fullr ul { margin-top: 6px; margin-bottom: 6px; }
+.fullr ul, .fullr ul li { display: inline-block; list-style-type: none; }
+
 .csection { padding: 0px; margin:0px auto;}
 .ctitle {display: inline-block; font-weight: bold; margin: 0px 4px; width: 100px; }
 #filter ul { margin-top: 6px; margin-bottom: 6px; }
@@ -42,7 +46,7 @@ article { margin-top: -1px; border: 1px solid #eee; clear:both; min-height: 400p
 section { width:756px; border-left: 1px solid #eee; margin-left: -1px; height: auto; padding: 0px 10px; float: left; min-height: 480px; } 
 aside { width:134px; padding: 0px 10px; float: left; } 
 
-h5 { margin: 4px auto; }
+h5, h4 { margin: 4px auto; }
 input[type=checkbox] { margin-left: 8px; }
 input[type=radio] { margin-left: 8px; }
 #spec {margin-top: 18px;}
@@ -68,12 +72,12 @@ input[type=radio] { margin-left: 8px; }
 .deviceselect th { padding: 7px 0px 6px 0px; }
 .deviceselect td { text-align: left; }
 #filter form { margin: 0px; padding: 0px 0px; text-align: center; }
-#btquery { box-shadow: 0px 1px 1px rgba(0,0,0, 0.2); margin: 10px 0px 6px px; background-color: #1abc9c; padding: 8px 12px; color: #fff; border-top: 1px solid #1abc9c; border-left: 1px solid #1abc9c; border-right: 1px solid #16a085; border-bottom: 1px solid #16a085; border-radius:5px; width: 20%; }
+#btquery { box-shadow: 0px 1px 0px rgba(0,0,0, 0.1); margin: 0px 0px; background-color: #1abc9c; padding: 3px 12px; color: #fff; 
+border-top: 1px solid #1abc9c; border-left: 1px solid #1abc9c; border-right: 1px solid #16a085; border-bottom: 1px solid #16a085; border-radius:0px; width: 20%; }
 #btquery:hover { cursor:pointer; background-color: #16a085; border-right: 1px solid #058074; border-bottom: 1px solid #058074; }
 
-#distype { height: 22px; border: 1px solid #eee; margin-top: -1px; padding-bottom: 4px; } 
-#distype ul { list-style-type: none; margin: 0px; padding: 2px 0px 2px 0px; display: inline-block; float:right; }
-#distype ul li { display: inline-block; margin-right: 10px; padding: 2px 6px 1px 6px; }
+#distype { float:right; margin-top:-1px;} 
+#distype ul { list-style-type: none; margin: 0px; padding: 0px; display: inline-block;  border: 1px solid #eee; }
+#distype ul li { display: inline-block; margin: 0px; padding: 4px 10px; margin-left: -4px; }
 #distype ul li:hover {cursor: pointer; background: #16a085; color: #fff; }
-.dison { background: #1abc9c; padding: 2px 0px 1px 0px; color: #fff; }
- 
+.dison { background: #1abc9c; color: #fff; }

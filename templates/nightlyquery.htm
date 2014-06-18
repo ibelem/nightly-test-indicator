@@ -51,6 +51,13 @@
                     </tr>
                 </table>
                 <input id='btquery' type='submit' text='Query' value='Query'>
+                <div id='distype'>
+                    <ul>
+                        <li id='all' class='dison'>Both</li>
+                        <li id='chart'>Charts</li>
+                        <li id='data'>Data</li>
+                    </ul>
+                </div>  
             </form>
         </div>
         <script type="text/javascript">
@@ -60,19 +67,10 @@
                 {% end %}            
             });
         </script>
-    </div> 
-   <div id='distype'>
-       <ul>
-           <li id='all' class='dison'>Both</li>
-           <li id='chart'>Charts</li>
-           <li id='data'>Data</li>
-       </ul>
-   </div>   
+    </div>  
     <article>
  
         {% for list in l[::-1] %}
-            <h4>{{ list[0].platform }} / {{ list[0].architecture }} / {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].name }}</h4>
-
             <script type="text/javascript">
                 $(function () { 
                     bids = [
@@ -84,10 +82,10 @@
                     $('#container_'+{{ list[0].device }}).highcharts({
                             chart: {},
                             title: {
-                                text: '{{ list[0].platform }} / {{ list[0].architecture }} / {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].name }}'
+                                text: '{{ list[0].platform }} {{ list[0].architecture }} / {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].name }}'
                             },
                             subtitle: {
-                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ list[0].platform }}/IA%20Canary/Nightly/'
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ lv.profile }}'
                             },
                             xAxis: {
                                 categories: bids
@@ -221,6 +219,7 @@
                 });
             </script>
             <div id="container_{{ list[0].device }}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+            <h5>{{ list[0].platform }} {{ list[0].architecture }} / {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].name }}</h5>
             <table class="reports">
                 <tr>
                     <th></th>
@@ -278,7 +277,7 @@
             $(document).ready(function() {
                 $('#all').click(function() {
                     $('div[id^="container"]').slideDown("slow");
-                    $("h4").slideDown("slow");
+                    $("h5").slideDown("slow");
                     $("table.reports").slideDown("slow");
                     $('#all').attr('class','dison');
                     $('#chart').removeClass('dison');
@@ -286,7 +285,7 @@
                 });
                $('#chart').click(function() {
                    $('div[id^="container"]').slideDown("slow");
-                   $("h4").slideUp("fast");
+                   $("h5").slideUp("fast");
                    $("table.reports").slideUp("fast");
                    $('#all').removeClass('dison');
                    $('#chart').attr('class','dison');
@@ -294,7 +293,7 @@
                }); 
                $('#data').click(function() {
                    $('div[id^="container"]').slideUp("fast");
-                   $("h4").slideDown("slow");
+                   $("h5").slideDown("slow");
                    $("table.reports").slideDown("slow");
                    $('#all').removeClass('dison');
                    $('#chart').removeClass('dison');

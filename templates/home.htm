@@ -51,17 +51,18 @@
                     </tr>
                 </table>
                 <input id='btquery' type='submit' text='Query' value='Query'>
+                <div id='distype'>
+                    <ul>
+                        <li id='all' class='dison'>Both</li>
+                        <li id='chart'>Charts</li>
+                        <li id='data'>Data</li>
+                    </ul>
+                </div>                
             </form>
         </div>
  
     </div>
-    <div id='distype'>
-        <ul>
-            <li id='all' class='dison'>Both</li>
-            <li id='chart'>Charts</li>
-            <li id='data'>Data</li>
-        </ul>
-    </div>
+
     <article>
             <script type="text/javascript">
                 $(function () {
@@ -290,7 +291,7 @@
             $(document).ready(function() {
                 $('#all').click(function() {
                     $('div[id^="container"]').slideDown("slow");
-                    $("h4").slideDown("slow");
+                    $("h5").slideDown("slow");
                     $("table.reports").slideDown("slow");
                     $('#all').attr('class','dison');
                     $('#chart').removeClass('dison');
@@ -298,7 +299,7 @@
                 });
                $('#chart').click(function() {
                    $('div[id^="container"]').slideDown("slow");
-                   $("h4").slideUp("fast");
+                   $("h5").slideUp("fast");
                    $("table.reports").slideUp("fast");
                    $('#all').removeClass('dison');
                    $('#chart').attr('class','dison');
@@ -306,7 +307,7 @@
                }); 
                $('#data').click(function() {
                    $('div[id^="container"]').slideUp("fast");
-                   $("h4").slideDown("slow");
+                   $("h5").slideDown("slow");
                    $("table.reports").slideDown("slow");
                    $('#all').removeClass('dison');
                    $('#chart').removeClass('dison');

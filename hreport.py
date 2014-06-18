@@ -22,19 +22,19 @@ class ReportHandler(tornado.web.RequestHandler):
         nw = 0
         l = []
 
-        avar['mr%s' % m] = self.db.query('SELECT * from crosswalk.reportsummary WHERE profile = "android" AND branch = "canary" AND hardware = "feature" ORDER BY build_id DESC, qa_id DESC')
+        avar['mr%s' % m] = self.db.query('SELECT * from crosswalk.reportsummary WHERE profile = "android" AND branch = "canary" AND hardware = "feature" ORDER BY build_id DESC, qa_id DESC LIMIT 16')
         if not avar['mr%s' % m] : raise tornado.web.HTTPError(404)
         m = m + 1 
 
-        awvar['mrw%s' % mw] = self.db.query('SELECT * from crosswalk.reportsummary WHERE profile = "android" AND branch = "canary" AND hardware = "webapi" ORDER BY build_id DESC, qa_id DESC')
+        awvar['mrw%s' % mw] = self.db.query('SELECT * from crosswalk.reportsummary WHERE profile = "android" AND branch = "canary" AND hardware = "webapi" ORDER BY build_id DESC, qa_id DESC LIMIT 16')
         if not awvar['mrw%s' % mw] : raise tornado.web.HTTPError(404)
         mw = mw + 1 
 
-        tvar['nr%s' % n] = self.db.query('SELECT * from crosswalk.reportsummary WHERE profile = "tizen" AND branch = "canary" AND hardware = "feature" ORDER BY build_id DESC, qa_id DESC')
+        tvar['nr%s' % n] = self.db.query('SELECT * from crosswalk.reportsummary WHERE profile = "tizen" AND branch = "canary" AND hardware = "feature" ORDER BY build_id DESC, qa_id DESC LIMIT 16')
         if not tvar['nr%s' % n] : raise tornado.web.HTTPError(404)
         n = n + 1 
 
-        twvar['nrw%s' % nw] = self.db.query('SELECT * from crosswalk.reportsummary WHERE profile = "tizen" AND branch = "canary" AND hardware = "webapi" ORDER BY build_id DESC, qa_id DESC')
+        twvar['nrw%s' % nw] = self.db.query('SELECT * from crosswalk.reportsummary WHERE profile = "tizen" AND branch = "canary" AND hardware = "webapi" ORDER BY build_id DESC, qa_id DESC LIMIT 16')
         if not twvar['nrw%s' % nw] : raise tornado.web.HTTPError(404)
         nw = nw + 1 
        

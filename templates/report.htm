@@ -1,7 +1,17 @@
 {% extends "main.htm" %}
 
 {% block body %}
-
+<div class='fullr'>
+    <ul>
+        <li id='aic' class='fr'>Android IA Canary</li>
+        <li id='aib' class='fr'>Android IA Beta</li>
+        <li id='aacc' class='fr'>ARM Cordova Canary</li>
+        <li id='aacb' class='fr'>ARM Cordova Beta</li>
+        <li id='tic' class='fr'>Tizen IVI Canary</li>
+        <li id='tib' class='fr'>Tizen IVI Beta</li>
+        <li id='tcc' class='fr'>Tizen Common Canary</li>
+    </ul>
+</div>  
 <div id='distype'>
     <ul>
         <li id='all' class='dison'>Both</li>
@@ -12,8 +22,6 @@
  <article>
 
      {% for list in l %}
-         <h4>{{ list[0].profile }} {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].hardware }}</h4>
-
          <script type="text/javascript">
              $(function () { 
                  bids = [
@@ -155,6 +163,7 @@
              });
          </script>
          <div id="container_{{ list[0].profile }}_{{lv.hardware}}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+         <h5>{{ list[0].profile }} {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].hardware }}</h5>
          <table class="reports">
              <tr>
                  <th></th>
@@ -212,7 +221,7 @@
          $(document).ready(function() {
              $('#all').click(function() {
                  $('div[id^="container"]').slideDown("slow");
-                 $("h4").slideDown("slow");
+                 $("h5").slideDown("slow");
                  $("table.reports").slideDown("slow");
                  $('#all').attr('class','dison');
                  $('#chart').removeClass('dison');
@@ -220,7 +229,7 @@
              });
             $('#chart').click(function() {
                 $('div[id^="container"]').slideDown("slow");
-                $("h4").slideUp("fast");
+                $("h5").slideUp("fast");
                 $("table.reports").slideUp("fast");
                 $('#all').removeClass('dison');
                 $('#chart').attr('class','dison');
@@ -228,7 +237,7 @@
             }); 
             $('#data').click(function() {
                 $('div[id^="container"]').slideUp("fast");
-                $("h4").slideDown("slow");
+                $("h5").slideDown("slow");
                 $("table.reports").slideDown("slow");
                 $('#all').removeClass('dison');
                 $('#chart').removeClass('dison');
