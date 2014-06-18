@@ -12,7 +12,7 @@
  <article>
 
      {% for list in l %}
-         <h4>{{ list[0].profile }} / {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].hardware }}</h4>
+         <h4>{{ list[0].profile }} {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].hardware }}</h4>
 
          <script type="text/javascript">
              $(function () { 
@@ -25,7 +25,7 @@
                  $('#container_{{ list[0].profile}}_{{lv.hardware}}').highcharts({
                          chart: {},
                          title: {
-                             text: '{{ list[0].profile }} / {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].hardware }}'
+                             text: '{{ list[0].profile }} {{ list[0].darchitecture }} / {{ list[0].branch }} / {{ list[0].hardware }}'
                          },
                          subtitle: {
                              text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ list[0].profile }}/IA%20Canary/{{ list[0].hardware }}'
