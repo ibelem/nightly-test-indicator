@@ -63,8 +63,6 @@
         </ul>
     </div>
     <article>
-        <p/>
- 
             <script type="text/javascript">
                 $(function () {
                         $('#container_{{ l[0][0].profile }}').highcharts({
@@ -122,12 +120,12 @@
             </script>
             <div id="container_{{ l[0][0].profile }}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
             {% for list in l[::-1] %}
-                        <h4>{{ list[0].profile }} / {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</h4>
+                        <h5>{{ list[0].profile }} / {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</h5>
             <table class="reports">
                 <tr>
                     <th></th>
                     {% for lv in list[::-1] %}
-                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/Android/IA%20Canary/Nightly/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
+                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/{{ lv.profile }}/{{lv.darchitecture}}%20Canary/{{lv.hardware}}/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
                     {% end %}
                     <th>+/-</th>
                 </tr>
@@ -173,8 +171,6 @@
                 </tr>
             </table> 
 
-            <p/>
-            
             {% end %}
 
             <script type="text/javascript">
@@ -235,12 +231,12 @@
             </script>
             <div id="container_{{ t[0][0].profile }}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
             {% for list in t[::-1] %}
-                        <h4>{{ list[0].profile }} / {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</h4>
+                        <h5>{{ list[0].profile }} / {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</h5>
             <table class="reports">
                 <tr>
                     <th></th>
                     {% for lv in list[::-1] %}
-                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/Android/IA%20Canary/Nightly/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
+                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/{{ lv.profile }}/Tizen {{lv.darchitecture}}%20Canary/{{lv.hardware}}/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
                     {% end %}
                     <th>+/-</th>
                 </tr>

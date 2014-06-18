@@ -1,0 +1,130 @@
+{% extends "main.htm" %}
+
+{% block body %}
+
+    <article>
+        <aside>
+            <div class="filter">
+                <h5>Platform</h5>
+                <input name="groupplatform" id="android" type="radio" value="android" checked="checked"> Android<br/>
+                <input name="groupplatform" id="tizen" type="radio" value="tizen"> Tizen
+            </div>
+            <div class="filter">
+                <h5>Architecture</h5>
+                <input name="grouparch" id="ia" type="radio" value="ia" checked="checked"> IA<br/>
+                <input name="grouparch" id="arm" type="radio" value="arm"> ARM
+            </div> 
+            <div class="filter">
+                <h5>Branch</h5>
+                <input name="groupbranch" id="canary" type="radio" value="canary" checked="checked"> Canary<br/>
+                <input name="groupbranch" id="beta" type="radio" value="beta"> Beta
+            </div>
+            <div class="filter">
+                <h5>Type</h5>
+                <input name="grouptype" id="feature" type="checkbox" value="feature"> Feature<br/>
+                <input name="grouptype" id="webapi" type="checkbox" value="webapi" checked="checked"> Web API<br/>
+                <input name="grouptype" id="cordova" type="checkbox" value="cordova"> Cordova
+            </div>
+            <div class="filter">
+                <h5>Set</h5>
+                <input name="groupset" id="full" type="radio" value="full"> Full/Reg.<br/>
+                <input name="groupset" id="nightly" type="radio" value="nightly" checked="checked"> Nightly
+            </div> 
+            <div class="filter">
+                <input name="groupbuild" id="spec" type="checkbox"> Specific<br/>
+                <input name="build" id="build" type="text" value="7.36.147.0" maxlength="13"><br/>
+                <input name="submit" id="query" type="submit" value="Query">
+            <div class="filter">
+        </aside>
+        <section>
+            <ul>
+              {% for entry in entries %}
+                <li>{{ escape(entry) }}</li>
+              {% end %}
+            </ul>
+            
+            <form method="post" action="/form">
+               <!--  Your Name: <input id="t1" type="text" name="usrname"><br>
+                Your Password: <input id="t2" type="text" name="psd">
+                <input type="submit" text="提交"> -->
+            </form>
+            
+        </section>
+        <div class="clear"></div>
+    </article>
+    <script type="text/javascript">
+        var doc = document;
+        var candroid = doc.querySelector('#android');
+        var ctizen = doc.querySelector('#tizen');
+        var cia = doc.querySelector('#ia');
+        var carm = doc.querySelector('#arm');
+        var ccanary = doc.querySelector('#canary');
+        var cbeta = doc.querySelector('#beta');
+        var cfeature = doc.querySelector('#feature');
+        var cwebapi = doc.querySelector('#webapi');
+        var ccordova = doc.querySelector('#cordova');
+        var cfull = doc.querySelector('#full');
+        var cnightly = doc.querySelector('#nightly');
+        var cspec = doc.querySelector('#spec');
+        var bbuild = doc.querySelector('#build');
+        
+        function tizencheck() {
+            if(ctizen.checked == "false") {
+                carm.disabled = false;
+                cbeta.disabled = false;
+                ccordova.disabled = false; 
+            } else {
+                carm.disabled = true;
+                cbeta.disabled = true;
+                ccordova.disabled = true;
+                cia.checked=true;
+                carm.checked = false;
+                ccanary.checked = true;
+                cbeta.checked = false;
+                ccordova.checked = false;
+            }        
+        }
+
+        function androidcheck() {
+            carm.disabled = false;
+            cbeta.disabled = false;
+            ccordova.disabled = false;
+        }
+
+        function speccheck() {
+            //alert(cspec.checked);
+            if(cspec.checked == false) {
+                bbuild.disabled = true;
+                bbuild.value = '';                
+            } else {
+                bbuild.disabled = false;
+                bbuild.value = '7.36.147.0';
+            }        
+        }
+
+        function init(event) {
+            if(event.target.type == "radio" || event.target.type == "checkbox") {
+                if(event.target.id == 'tizen') {
+                    tizencheck();
+                }
+                if(event.target.id == 'android') {
+                    androidcheck();
+                }
+                if(event.target.id == 'spec') {
+                    speccheck();
+                }
+            }
+        }
+
+        function addEvent(element, ename, func) {   
+            if(element.attachEvent) {   
+                 element.attachEvent("on" + ename, func);   
+             }   
+            else if(element.addEventListener){   
+                 element.addEventListener(ename, func, true);   
+             }   
+        }
+        addEvent(window, 'load', function(){ speccheck();});
+        addEvent(window, 'click', function(){ init(arguments[0]) });
+    </script>
+{% end %}

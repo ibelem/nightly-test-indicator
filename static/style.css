@@ -8,7 +8,7 @@ nav ul li { display: inline-block; padding-left: 4px; }
 nav a:link, nav a:visited, nav a:active { text-decoration: underline; }
 .rnav { float:right; }
 
-div { clear:both; }
+
 a:link, a:visited, a:active { color: #515151; text-decoration: none; }
 a:hover { color: #1abc9c; text-decoration: underline; }
 
@@ -51,7 +51,7 @@ input[type=radio] { margin-left: 8px; }
 .clear {clear: both; }
 
 .cbselector { display: inline;}
-.reports { border: 1px solid #eee; margin-top: 10px; }
+.reports { border: 1px solid #eee; margin-top: 10px; margin-bottom: 10px;}
 .reports th, .reports td { border-left: 1px solid #efefef; padding: 2px 0px; font-weight: normal;}
 .reports th { padding: 3px 0px 2px 0px; max-width: 34px; }
 .reports tr:nth-child(even) { background-color: #fcfcfc; }
@@ -76,6 +76,4 @@ input[type=radio] { margin-left: 8px; }
 #distype ul li { display: inline-block; margin-right: 10px; padding: 2px 6px 1px 6px; }
 #distype ul li:hover {cursor: pointer; background: #16a085; color: #fff; }
 .dison { background: #1abc9c; padding: 2px 0px 1px 0px; color: #fff; }
-
-
  
