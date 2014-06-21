@@ -21,7 +21,7 @@ protocol = 'http'
 host = 'wrt-qa-report.sh.intel.com'
 path = 'api/reports'
 auto_token = 'NL1sbHvpDadoM4jrml7A'
-limit_amount = '6'
+limit_amount = '12'
 config = [protocol, host, path, auto_token, limit_amount]
 url = '%s://%s/%s/?auto_token=%s&limit_amount=%s' % tuple(config)
 filename = 'index.html?auto_token='+ auto_token + '&limit_amount=' + limit_amount

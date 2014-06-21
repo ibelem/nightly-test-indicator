@@ -6,6 +6,23 @@ import torndb
 
 from tornado.options import define, options
 
+
+class NightlyQueryGetHandler(tornado.web.RequestHandler):
+    def get(self, entry_id):
+        self.db = torndb.Connection(
+        host=options.mysql_host, database=options.mysql_database,
+        user=options.mysql_user, password=options.mysql_password)
+        devices = self.db.query('SELECT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary)')
+        if not devices: 
+            self.render("nightlyquerygetno.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
+        device = self.db.query('SELECT * FROM crosswalk.device WHERE id = %s', entry_id)
+        if not device: 
+            self.render("nightlyquerygetno.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
+        l = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + '(A.device=' + str(entry_id) + ' AND B.id=' + str(entry_id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 18')
+        if not l:  
+            self.render("nightlyquerygetno.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
+        self.render("nightlyqueryget.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id, list=l)
+
 class NightlyQueryHandler(tornado.web.RequestHandler):
     def post(self):
 

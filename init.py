@@ -29,6 +29,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r'/', hhome.HomeHandler),
             (r'/nightly/query', hnightly.NightlyQueryHandler),
+            (r'/nightly/([0-9]+)', hnightly.NightlyQueryGetHandler),
             (r'/nightly', hnightly.NightlyHandler),
             (r'/device', hdevice.DeviceManagementHandler),
             (r'/device/edit/([0-9]+)', hdevice.DeviceManagementEditHandler),
@@ -36,7 +37,17 @@ class Application(tornado.web.Application):
             (r'/device/update/([0-9]+)', hdevice.DeviceManagementUpdatePostHandler),
             (r'/device/delete/([0-9]+)', hdevice.DeviceManagementDeleteGetHandler),
             (r'/report', hreport.ReportHandler),
-            (r'/report/([0-9]+)', hreport.ReportDetailHandler),
+            (r'/report/(\w+)/(\w+)/(\w+)/([\w(%20)*]+)', hreport.ReportCustomizeHandler),
+
+#            (r'/report/(\w+)', hreport.ReportPlatformHandler),
+#            (r'/report/Android', hreport.ReportPlatformArchitectureAHandler),
+#            (r'/report/Android/IA', hreport.ReportPlatformArchitectureAIAHandler),
+#            (r'/report/Android/ARM', hreport.ReportPlatformArchitectureAARMHandler),
+#            (r'/report/Tizen/(\w+)', hreport.ReportPlatformArchitectureTHandler),
+#            (r'/report/Tizen/Generic/(\w+)', hreport.ReportPlatformArchitectureTGenericHandler),
+#            (r'/report/Tizen/Common/(\w+)', hreport.ReportPlatformArchitectureTCommonHandler),
+#            (r'/report/Tizen/IVI/(\w+)', hreport.ReportPlatformArchitectureTIVIHandler),
+
         ]
         settings = dict(
             template_path=os.path.join(os.path.dirname(__file__), 'templates'),

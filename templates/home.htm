@@ -2,7 +2,7 @@
 
 {% block body %}
     <div id='filter'>
-        <div class='csection'>
+        <div class='csectionone'>
             <form method='post' action='/nightly/query'>
                 <table class='deviceselect'>
                     <tr>
@@ -50,20 +50,21 @@
                         </td>
                     </tr>
                 </table>
-                <input id='btquery' type='submit' text='Query' value='Query'>
-                <div id='distype'>
-                    <ul>
-                        <li id='all' class='dison'>Both</li>
-                        <li id='chart'>Charts</li>
-                        <li id='data'>Data</li>
-                    </ul>
-                </div>                
+                <input id='btquery' type='submit' text='Query' value='Query'>        
             </form>
         </div>
- 
     </div>
-
     <article>
+        <div id='distype'>
+            <ul id='tog' class='notdisplay'>
+                <li id='chart'>Chart</li>
+                <li id='data'>Data</li>
+            </ul>
+            <ul id='ind'>
+                <li id='plus'>+</li>
+                <li id='updown'>&uarr;</li>        
+            </ul>
+        </div>   
             <script type="text/javascript">
                 $(function () {
                         $('#container_{{ l[0][0].profile }}').highcharts({
@@ -72,7 +73,7 @@
                                 x: -20 //center
                             },
                             subtitle: {
-                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ l[0][0].profile }} ',
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ l[0][0].profile }}/{% if (l[0][0].darchitecture.lower() =="common") or (l[0][0].darchitecture.lower() =="generic") %}Tizen {%end%}{{ l[0][0].darchitecture }} {{ l[0][0].branch }}/{{ l[0][0].hardware }}',
                                 x: -20
                             },
                             xAxis: {
@@ -121,12 +122,12 @@
             </script>
             <div id="container_{{ l[0][0].profile }}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
             {% for list in l[::-1] %}
-                        <h5>{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</h5>
+                        <h5><a href='nightly/{{ list[0].device }}' title='{{ l[0][0].profile }} {{ l[0][0].architecture }} / {{ l[0][0].branch }} / {{l[0][0].name }}'>{{ l[0][0].profile }} {{ l[0][0].architecture }} / {{ l[0][0].branch }} / {{ l[0][0].name }}</a></h5>
             <table class="reports">
                 <tr>
                     <th></th>
                     {% for lv in list[::-1] %}
-                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/{{ lv.profile }}/{{lv.darchitecture}}%20Canary/{{lv.hardware}}/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
+                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/{{ lv.profile }}/{% if (lv.darchitecture.lower() =="common") or (lv.darchitecture.lower() =="generic") %}Tizen {%end%}{{ lv.darchitecture }} {{ lv.branch }}/{{ lv.hardware }}/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
                     {% end %}
                     <th>+/-</th>
                 </tr>
@@ -182,7 +183,7 @@
                                 x: -20 //center
                             },
                             subtitle: {
-                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ t[0][0].profile }} ',
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ t[0][0].profile }}/{% if (t[0][0].darchitecture.lower() =="common") or (t[0][0].darchitecture.lower() =="generic") %}Tizen {%end%}{{ t[0][0].darchitecture }} {{ t[0][0].branch }}/{{ t[0][0].hardware }}',
                                 x: -20
                             },
 
@@ -232,12 +233,12 @@
             </script>
             <div id="container_{{ t[0][0].profile }}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
             {% for list in t[::-1] %}
-                        <h5>{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</h5>
+                        <h5><a href='nightly/{{ list[0].device }}' title='{{ t[0][0].profile }} {{ t[0][0].architecture }} / {{ t[0][0].branch }} / {{t[0][0].name }}'>{{ t[0][0].profile }} {{ t[0][0].architecture }} / {{ t[0][0].branch }} / {{ t[0][0].name }}</a></h5>
             <table class="reports">
                 <tr>
                     <th></th>
                     {% for lv in list[::-1] %}
-                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/{{ lv.profile }}/Tizen {{lv.darchitecture}}%20Canary/{{lv.hardware}}/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
+                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/{{ lv.profile }}/{% if (lv.darchitecture.lower() =="common") or (lv.darchitecture.lower() =="generic") %}Tizen {%end%}{{ lv.darchitecture }} {{ lv.branch }}/{{ lv.hardware }}/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
                     {% end %}
                     <th>+/-</th>
                 </tr>
@@ -286,35 +287,8 @@
  
         <script type='text/javascript' src='{{ static_url('highcharts/js/highcharts.js') }}'></script>
         <script type='text/javascript' src='{{ static_url('highcharts/js/modules/exporting.js') }}'></script>
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#all').click(function() {
-                    $('div[id^="container"]').slideDown("slow");
-                    $("h5").slideDown("slow");
-                    $("table.reports").slideDown("slow");
-                    $('#all').attr('class','dison');
-                    $('#chart').removeClass('dison');
-                    $('#data').removeClass('dison');
-                });
-               $('#chart').click(function() {
-                   $('div[id^="container"]').slideDown("slow");
-                   $("h5").slideUp("fast");
-                   $("table.reports").slideUp("fast");
-                   $('#all').removeClass('dison');
-                   $('#chart').attr('class','dison');
-                   $('#data').removeClass('dison');
-               }); 
-               $('#data').click(function() {
-                   $('div[id^="container"]').slideUp("fast");
-                   $("h5").slideDown("slow");
-                   $("table.reports").slideDown("slow");
-                   $('#all').removeClass('dison');
-                   $('#chart').removeClass('dison');
-                   $('#data').attr('class','dison');
-               });        
-            });
-        </script>
+        <script type="text/javascript" src='{{ static_url('ui.js') }}'></script>
 
     </article>
 {% end %}
+

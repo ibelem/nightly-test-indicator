@@ -65,14 +65,11 @@
         </div>
         <script type="text/javascript">
             $( document ).ready(function() {
-                {% for list in d %}
-                    $('#id_{{ list }}').attr('checked','checked');
-                {% end %}            
+                   $('#id_{{ d }}').attr('checked','checked');
             });
         </script>
     </div>  
     <article>
-        {% for list in l[::-1] %}
             <script type="text/javascript">
                 $(function () { 
                     bids = [
@@ -271,7 +268,6 @@
                     {{ format(float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases, '.1%') }}</td>
                 </tr>
             </table>  
-        {% end %}
 
         <script type='text/javascript' src='{{ static_url('highcharts/js/highcharts.js') }}'></script>
         <script type='text/javascript' src='{{ static_url('highcharts/js/modules/exporting.js') }}'></script>
