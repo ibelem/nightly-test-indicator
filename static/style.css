@@ -31,7 +31,7 @@ table td input[type=number] { width: 40px; }
 table td input[id^=name] { width: 100px;}
 #update { width: 60px; }
 #filter { border-left: 1px solid #eee; border-right: 1px solid #eee; margin-top: -1px;}
-.csection { border-bottom: 0px dotted #eee; padding: 0px; }
+.csection { border-bottom: 0px dotted #eee; padding: 0px; margin-left: 7px;}
 .csection:last-child { border-bottom: 1px solid #eee; }
 .csectionone { border-bottom: 0px dotted #eee; padding: 0px 0px; margin:0px;}
 .ctitle {display: inline-block; font-weight: bold; margin: 0px 4px; width: 98px; }

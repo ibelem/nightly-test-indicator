@@ -232,40 +232,70 @@
                     {% for lv in list[::-1] %}
                     <td>{{ lv.total_cases }}</td>
                     {% end %}
-                    <td class='{% if list[0].total_cases - list[1].total_cases < 0 %}{% if list[0].total_cases - list[1].total_cases < 300 %}very{% end %} down{% else %}up{% end %}'>
+{% try %}
+{% if list[1] %}
+                    <td class='{% if list[0].total_cases - list[1].total_cases < 0 %}{% if list[0].total_cases - list[1].total_cases > 300 %}very{% end %} down{% else %}up{% end %}'>
                     {{ list[0].total_cases - list[1].total_cases }}</td>
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
                 </tr>
                 <tr>
                     <td>Passed</td>
                     {% for lv in list[::-1] %}
                     <td>{{ lv.total_pass }}</td>
                     {% end %}
+{% try %}
+{% if list[1] %}
                     <td class='{% if  list[0].total_pass - list[1].total_pass < 0 %}{% if list[0].total_pass - list[1].total_pass < 300 %}very{% end %} down{% else %}up{% end %}'>
                     {{ list[0].total_pass - list[1].total_pass }}</td>
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
                 </tr>
                 <tr>
                     <td>Failed</td>
                     {% for lv in list[::-1] %}
                     <td>{{ lv.total_fail }}</td>
                     {% end %}
+{% try %}
+{% if list[1] %}
                     <td class='{% if  list[0].total_fail - list[1].total_fail <= 0 %}up{% else %}down{% end %}'>
                     {{ list[0].total_fail - list[1].total_fail }}</td>
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
                 </tr>
                 <tr>
                     <td>Blocked</td>
                     {% for lv in list[::-1] %}
                     <td>{{ lv.total_na }}</td>
                     {% end %}
+{% try %}
+{% if list[1] %}
                     <td class='{% if  list[0].total_na - list[1].total_na <= 0 %}up{% else %}down{% end %}'>
                     {{list[0].total_na - list[1].total_na}}</td>
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
                 </tr>
                 <tr>
                     <td>Pass rate</td>
                     {% for lv in list[::-1] %}
                     <td>{{ format(float(lv.total_pass)/lv.total_cases, '.0%') }}</td>
                     {% end %}
+{% try %}
+{% if list[1] %}
                     <td class='{% if  float(list[0].total_pass)/list[0].total_cases  - float(list[1].total_pass)/list[1].total_cases < 0 %}down{% else %}up{% end %}'>
                     {{ format(float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases, '.1%') }}</td>
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
                 </tr>
             </table>  
 
