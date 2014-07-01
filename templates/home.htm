@@ -16,41 +16,41 @@
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'phone' %}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %}                        
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'phone' %}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %}                     
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'tablet' %}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %} 
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'tablet' %}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %} 
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'tizen'%}
-                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %} 
                         </td>
                     </tr>
                 </table>
-                <input id='btquery' type='submit' text='Query' value='Query'>        
+                <input id='btquery' type='submit' text='Query' value='Query'>
             </form>
         </div>
     </div>
@@ -73,7 +73,7 @@
                                 x: -20 //center
                             },
                             subtitle: {
-                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ l[0][0].profile }}/{% if (l[0][0].darchitecture.lower() =="common") or (l[0][0].darchitecture.lower() =="generic") %}Tizen {%end%}',
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ l[0][0].profile }}',
                                 x: -20
                             },
                             xAxis: {
@@ -238,7 +238,7 @@
                                 x: -20 //center
                             },
                             subtitle: {
-                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ t[0][0].profile }}/{% if (t[0][0].darchitecture.lower() =="common") or (t[0][0].darchitecture.lower() =="generic") %}Tizen {%end%}',
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ t[0][0].profile }}',
                                 x: -20
                             },
 

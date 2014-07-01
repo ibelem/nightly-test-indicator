@@ -16,35 +16,35 @@
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'phone' %}
-                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %}                        
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'phone' %}
-                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %}                     
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'tablet' %}
-                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %} 
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'tablet' %}
-                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %} 
                         </td>
                         <td>
                             {% for device in devices %}
                                 {% if device.platform.lower() == 'tizen'%}
-                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"> {{ escape(device.name) }}<br/>
+                                    <input name="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
                                 {% end %}
                             {% end %} 
                         </td>
