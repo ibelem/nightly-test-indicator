@@ -18,7 +18,7 @@ class NightlyQueryGetHandler(tornado.web.RequestHandler):
         device = self.db.query('SELECT * FROM crosswalk.device WHERE id = %s', entry_id)
         if not device: 
             self.render("nightlyquerygetno.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
-        l = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + '(A.device=' + str(entry_id) + ' AND B.id=' + str(entry_id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 18')
+        l = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + '(A.device=' + str(entry_id) + ' AND B.id=' + str(entry_id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 16')
         if not l:  
             self.render("nightlyquerygetno.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
         self.render("nightlyqueryget.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id, list=l)
@@ -50,7 +50,7 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
                     deviceid = self.get_argument('id_' + str(device.id))
                     print str(deviceid)
                     dvar['di%s' % n] = str(device.id)
-                    lvar['nr%s' % n] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 18')
+                    lvar['nr%s' % n] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 16')
                     if not lvar['nr%s' % n] : raise tornado.web.HTTPError(404)
                     n = n + 1 
                 except Exception, ex:

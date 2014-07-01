@@ -35,5 +35,9 @@ $(document).ready(function() {
         } else {
             $('#updown').html('↑'); 
         }
-  });       
+  }); 
+
+  $('input[type=checkbox]').click(function() {
+    $('#formquery').submit();   
+  });      
 });
