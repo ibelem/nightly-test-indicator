@@ -23,6 +23,8 @@ class HomeHandler(tornado.web.RequestHandler):
         android = self.db.query('SELECT DISTINCT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary) and platform = \'android\'')
         tizen = self.db.query('SELECT DISTINCT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary) and platform = \'tizen\'')
 
+        build = self.db.query('SELECT DISTINCT build_id FROM crosswalk.reportsummary AS A, crosswalk.device AS B WHERE A.device = B.id ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 6')
+
         for a in android:
             try:    
                 avar['mr%s' % m] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A, crosswalk.device AS B WHERE (A.profile=%s AND A.device = B.id) AND B.id=%s ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 6', a.platform, a.id);
@@ -56,5 +58,5 @@ class HomeHandler(tornado.web.RequestHandler):
 #        for j in range(0, n):
 #            t.append(tvar['nr%s' % j])
 
-        self.render("home.htm", title="Crosswalk Nightly Test Report", devices=devices, l=l, t=t)
+        self.render("home.htm", title="Crosswalk Nightly Test Report", devices=devices, build=build, l=l, t=t)
 

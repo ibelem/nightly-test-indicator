@@ -30,13 +30,12 @@ CREATE TABLE `device` (
   `platform` varchar(16) DEFAULT NULL,
   `architecture` varchar(16) DEFAULT NULL,
   `sdk` varchar(24) DEFAULT NULL,
-  `serial` varchar(64) DEFAULT NULL,
-  `note` varchar(128) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
   `priority` varchar(2) DEFAULT NULL,
-  `asset` varchar(64) DEFAULT NULL,
   `type` varchar(24) DEFAULT NULL,
-  `path` varchar(48) DEFAULT NULL,
+  `asset` varchar(64) DEFAULT NULL,
+  `serial` varchar(64) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `note` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -59,7 +58,7 @@ CREATE TABLE `reportcase` (
   `bugs` varchar(128) DEFAULT NULL,
   `note` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=551284 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=666898 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +81,7 @@ CREATE TABLE `reportcategory` (
   `comments` varchar(256) DEFAULT NULL,
   `note` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6653 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8245 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +114,7 @@ CREATE TABLE `reportsummary` (
   `updated_at` varchar(32) DEFAULT NULL,
   `note` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1263 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,4 +134,4 @@ CREATE TABLE `reportsummary` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-17 16:50:18
+-- Dump completed on 2014-07-01 15:05:11

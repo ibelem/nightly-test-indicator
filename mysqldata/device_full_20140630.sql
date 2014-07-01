@@ -30,13 +30,12 @@ CREATE TABLE `device` (
   `platform` varchar(16) DEFAULT NULL,
   `architecture` varchar(16) DEFAULT NULL,
   `sdk` varchar(24) DEFAULT NULL,
-  `serial` varchar(64) DEFAULT NULL,
-  `note` varchar(128) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
   `priority` varchar(2) DEFAULT NULL,
-  `asset` varchar(64) DEFAULT NULL,
   `type` varchar(24) DEFAULT NULL,
-  `path` varchar(48) DEFAULT NULL,
+  `asset` varchar(64) DEFAULT NULL,
+  `serial` varchar(64) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `note` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -47,7 +46,7 @@ CREATE TABLE `device` (
 
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` VALUES (1,'Xiaomi 3','Android','ARM','4.3','c7609484','','2014-06-14 02:25:52','2','QAM-648','Phone',NULL),(2,'Google Nexus 4','Android','ARM','4.2.2','','','2014-06-13 05:51:33','2','QAM-588','Phone',NULL),(3,'Xiaomi 2S','Android','ARM','4.2.2','','','2014-06-13 05:51:48','2','QAM-583','Phone',NULL),(4,'Google Nexus 4','Android','ARM','4.4.2 (CyanogenMod)','','','2014-06-07 01:00:48','2','QAM-589','Phone',NULL),(5,'Kindle Fire HD','Android','ARM','Fire OS 3.2','','','2014-06-07 00:57:41','2','QAM-662','Tablet',NULL),(6,'Dell Venue 8','Android','IA','4.3','','','2014-06-14 01:31:10','2','QAM-661','Tablet',NULL),(8,'ZTE Grand Memo U5','Android','ARM','4.1.2','','','2014-06-07 00:59:26','2','QAM-328','Phone',NULL),(9,'Galaxy Nexus 3','Android','ARM','4.0.3','','','2014-06-07 00:58:47','2','QAM-327','Phone',NULL),(10,'Google Nexus 5','Android','ARM','4.4.2','','','2014-06-07 00:59:09','1','','Phone',NULL),(11,'Acer Notebook','Tizen','IA','','','','2014-06-07 00:54:18','2','','Laptop',NULL),(12,'Intel NUC i5','Tizen','IA','','','','2014-06-07 00:54:08','2','QAM-664','NUC',NULL),(13,'Ramos i10','Android','IA','4.2.2','','','2014-06-07 00:53:15','2','QAM-663','Tablet',NULL),(14,'ASUS T00E Padfone Mini','Android','IA','4.3','','','2014-06-17 02:22:37','2','QAM-647','Tablet','Temp'),(16,'Thinkpad X240','Tizen','IA','','','','2014-06-07 01:32:24','2','23400','Laptop',NULL),(24,'ZTE Geek V975','Android','IA','4.2.2','','','2014-06-07 00:52:02','0','','Phone','Nightly'),(29,'VTC1010','Tizen','IA','','','','2014-06-07 01:01:09','0','','IVI',NULL),(30,'Samsung Galaxy Tab 3','Android','IA','4.2.2','','','2014-06-10 01:08:22','2','QAM-311','Tablet',NULL),(39,'ASUS T100','Android','IA','','','','2014-06-13 02:45:41','2','','Tablet',NULL),(47,'Acer Aspire 5349 ZRL','Tizen','IA','','','','2014-06-13 02:38:55','1','','Laptop','Nightly'),(49,'ASUS T00G Zenfone 6','Android','IA','4.3','','','2014-06-17 00:32:13','1','QAM-714','Phone',NULL);
+INSERT INTO `device` VALUES (1,'Xiaomi 3','Android','ARM','4.3','2','Phone','QAM-648','c7609484','2014-06-14 02:25:52',''),(2,'Google Nexus 4','Android','ARM','4.2.2','2','Phone','QAM-588','','2014-06-27 01:50:20',''),(3,'Xiaomi 2S','Android','ARM','4.2.2','2','Phone','QAM-583','','2014-06-13 05:51:48',''),(4,'Google Nexus 4 CyanogenMod','Android','ARM','4.4.2 (CyanogenMod)','2','Phone','QAM-589','','2014-06-27 01:50:36',''),(5,'Kindle Fire HD','Android','ARM','Fire OS 3.2','2','Tablet','QAM-662','','2014-06-07 00:57:41',''),(6,'Dell Venue 8','Android','IA','4.3','2','Tablet','QAM-661','','2014-06-14 01:31:10',''),(8,'ZTE Grand Memo U5','Android','ARM','4.1.2','2','Phone','QAM-328','','2014-06-07 00:59:26',''),(9,'Galaxy Nexus 3','Android','ARM','4.0.3','2','Phone','QAM-327','','2014-06-07 00:58:47',''),(10,'Google Nexus 5','Android','ARM','4.4.2','1','Phone','','','2014-06-07 00:59:09',''),(12,'Intel NUC i5','Tizen','IA','','2','NUC','QAM-664','','2014-06-07 00:54:08',''),(13,'Ramos i10','Android','IA','4.2.2','2','Tablet','QAM-663','','2014-06-07 00:53:15',''),(14,'ASUS T00E Padfone Mini','Android','IA','4.3','2','Tablet','QAM-647','','2014-06-17 02:22:37',''),(16,'Thinkpad X240','Tizen','IA','','2','Laptop','23400','','2014-06-07 01:32:24',''),(24,'ZTE Geek V975','Android','IA','4.2.2','0','Phone','','','2014-06-07 00:52:02',''),(29,'VTC1010','Tizen','IA','','0','IVI','','','2014-06-07 01:01:09',''),(30,'Samsung Galaxy Tab 3','Android','IA','4.2.2','2','Tablet','QAM-311','','2014-06-10 01:08:22',''),(47,'Acer Aspire 5349 ZRL','Tizen','IA','','1','Laptop','','','2014-06-13 02:38:55',''),(49,'ASUS T00G Zenfone 6','Android','IA','4.3','1','Phone','QAM-714','','2014-06-17 00:32:13','');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,4 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-17 16:51:37
+-- Dump completed on 2014-07-01 15:04:03

@@ -63,6 +63,7 @@ input[type=radio] { margin-left: 8px; }
 .reports th, .reports td { border-left: 1px solid #efefef; padding: 2px 0px; font-weight: normal;}
 .reports th { padding: 3px 0px 2px 0px; max-width: 34px; }
 .reports tr:nth-child(even) { background-color: #fcfcfc; }
+.reports tr th:first-child, .reports tr td:first-child { max-width: 140px; width: 140px; overflow: hidden; }
 .reports tr:hover { background-color: #f6f6f6; }
 .reports  a:link, .reports a:visited, .reports a:hover { color:#1abc9c; }
 .up { background-color: rgba(0, 255, 0, 0.05); color: rgba(0, 128, 0, 1.0); }

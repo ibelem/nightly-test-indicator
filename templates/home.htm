@@ -73,16 +73,14 @@
                                 x: -20 //center
                             },
                             subtitle: {
-                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ l[0][0].profile }}/{% if (l[0][0].darchitecture.lower() =="common") or (l[0][0].darchitecture.lower() =="generic") %}Tizen {%end%}{{ l[0][0].darchitecture }} {{ l[0][0].branch }}/{{ l[0][0].hardware }}',
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ l[0][0].profile }}/{% if (l[0][0].darchitecture.lower() =="common") or (l[0][0].darchitecture.lower() =="generic") %}Tizen {%end%}',
                                 x: -20
                             },
                             xAxis: {
                                 categories: [
-                                        {% for list in l[::-1] %}
-                                            {% for lv in list[::-1] %}
+                                            {% for lv in build[::-1] %}
                                              '{{ lv.build_id }}', 
                                             {% end %}
-                                        {% end %}
                                 ]
                             },
                             yAxis: {
@@ -111,9 +109,34 @@
                                 name: '{{list[0].name}}',
                                 type: 'spline',
                                 data: [
-                                    {% for lv in list[::-1] %}
-                                     {{ round(float(lv.total_pass)*100/lv.total_cases, 0) }}, 
-                                    {% end %}
+                                        {% if len(list) == 0 %}
+                                            '','','','','','',
+                                        {% elif len(list) == 1 %}
+                                            '','','','','',
+                                        {% elif len(list) == 2 %}
+                                            '','','','',
+                                        {% elif len(list) == 3 %}
+                                            '','','',
+                                        {% elif len(list) == 4 %}
+                                            '','',
+                                        {% elif len(list) == 5 %}
+                                            '',
+                                        {% else %}
+                                        {% end %}
+
+                                        {% for lv in list[::-1] %}
+                                                {{ round(float(lv.total_pass)*100/lv.total_cases, 0) }},
+                                        {% end %}
+
+                                        /* {% for lb in build[::-1] %}
+                                            {% for lv in list[::-1] %}
+                                                {% if lb.build_id == lv.build_id %}
+                                                    {{ round(float(lv.total_pass)*100/lv.total_cases, 0) }},
+                                                {% end %}
+                                            {% end %}
+                                        {% end %}
+                                        */
+ 
                                 ]
                             },
                             {% end %}]
@@ -215,7 +238,7 @@
                                 x: -20 //center
                             },
                             subtitle: {
-                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ t[0][0].profile }}/{% if (t[0][0].darchitecture.lower() =="common") or (t[0][0].darchitecture.lower() =="generic") %}Tizen {%end%}{{ t[0][0].darchitecture }} {{ t[0][0].branch }}/{{ t[0][0].hardware }}',
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ t[0][0].profile }}/{% if (t[0][0].darchitecture.lower() =="common") or (t[0][0].darchitecture.lower() =="generic") %}Tizen {%end%}',
                                 x: -20
                             },
 
@@ -232,7 +255,7 @@
                                 title: {
                                     text: 'Pass Rate (%)'
                                 },
-                                min: 60,
+                                min: 0,
                                 max: 100,
                                 plotLines: [{
                                     value: 0,
@@ -254,9 +277,23 @@
                                 name: '{{list[0].name}}',
                                 type: 'spline',
                                 data: [
-                                    {% for lv in list[::-1] %}
-                                     {{ round(float(lv.total_pass)*100/lv.total_cases, 0) }}, 
-                                    {% end %}
+                                {% if len(list) == 0 %} 
+                                       '', '', '', '', '', 
+                                   {% elif len(list) == 1 %}
+                                       '', '', '', '', '',
+                                    {% elif len(list) == 2 %}
+                                        '', '', '', '', 
+                                    {% elif len(list) == 3 %}
+                                        '', '', '', 
+                                    {% elif len(list) == 4 %}
+                                        '', '', 
+                                    {% elif len(list) == 5 %}
+                                        '', 
+                                    {% else %}
+                                    {% end %}                                    
+                                {% for lv in list[::-1] %}
+                                 {{ round(float(lv.total_pass)*100/lv.total_cases, 0) }}, 
+                                {% end %}
                                 ]
                             },
                             {% end %}]
