@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
-import os
+import os, sys
+sys.path.append("..")
 import re
 import subprocess
 from subprocess import call
-from datetime import *  
+from datetime import *
+from common.cook import *
 import time  
 import json
 import tornado
@@ -46,15 +48,17 @@ def jsonToDB(file):
         ab = testtype.lower()
         branch = ''
         architecture = ''
+        dic = {'Canary':'', 'canary':'', 'Beta':'', 'beta':'', 'Stable':'', 'stable':'', 'Tizen':'', 'tizen':''}
         if ab.endswith('canary'):
             branch = 'Canary'
-            architecture = testtype.replace('Canary', '').replace('canary', '').replace('Tizen', '').replace('tizen', '').strip()
+            architecture = multi_replace(testtype, dic).strip()
+            print architecture
         elif ab.endswith('beta'):
             branch = 'Beta'
-            architecture = testtype.replace('Beta', '').replace('beta', '').replace('Tizen', '').replace('tizen', '').strip()
+            architecture = multi_replace(testtype, dic).strip()
         elif ab.endswith('stable'):
             branch = 'Stable'
-            architecture = testtype.replace('Stable', '').replace('stable', '').replace('Tizen', '').replace('tizen', '').strip()
+            architecture = multi_replace(testtype, dic).strip()
         else:
             branch = ''
             architecture = testtype.strip()
@@ -152,19 +156,11 @@ def renameJSONFile():
     d = d.strftime('%Y-%m-%d_%H-%M-%S_%f')
     newfile = d + '.json'
     try:
-        renameFile(dir, filename, d + '.json')
+        rename_file(dir, filename, d + '.json')
         print 'json file renamed to '+ newfile +' successfully'
     except Exception, ex:
         print str(ex) + ': rename json file failed'    
     return newfile
-
-def renameFile(dir, na, nb):
-    files = os.listdir(dir)
-    for i in files:
-        if i.find(na) > -1:
-            f_path = dir + os.sep + i
-            if os.path.isfile(f_path):
-                os.rename(f_path, dir + os.sep + i.replace(na,nb))
  
 def downloadJSONFile():
   try:

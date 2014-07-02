@@ -52,8 +52,8 @@ h5, h4 { margin: 4px auto; clear: both;}
 h5 a:link, h5 a:visited, h5 a:active { color: #1abc9c; text-decoration: none; }
 h5 a:hover { color: #1abc9c; text-decoration: underline; }
 
-input[type=checkbox] { margin-left: 10px; display: inline-block; }
-label { display: inline-block; max-width: 180px; vertical-align: top; margin-top: 2px;  font-size: 75%; }
+input[type=checkbox] { margin-left: 10px; display: inline-block; margin-top: -2px; }
+label { display: inline-block; max-width: 180px; vertical-align: top; margin-top: 0px;  font-size: 75%; }
 .deviceselect td { vertical-align: top; }
 article table, #adddevice { font-size: 84% }
 input[type=radio] { margin-left: 8px; }
@@ -75,10 +75,10 @@ input[type=radio] { margin-left: 8px; }
 .very { background-color: rgba(255, 0, 0, 0.2) !important; }
 
 .deviceselect { border: 0px solid #eee; }
-.deviceselect td { border-left: 1px dotted #efefef; border-right: 1px dotted #efefef; padding: 8px 0px; font-weight: normal; width: 20%; overflow: hidden; }
+.deviceselect td { border-left: 1px dotted #efefef; border-right: 1px dotted #efefef; padding: 6px 0px 2px; font-weight: normal; width: 20%; overflow: hidden; }
 .deviceselect th:nth-child(odd) { border-bottom: 2px solid #1abc9c; }
 .deviceselect th:nth-child(even) { border-bottom: 2px solid #e67e22; }
-.deviceselect th { padding: 7px 0px 6px 0px; }
+.deviceselect th { padding: 7px 0px 5px 0px; }
 .deviceselect td { text-align: left; }
 #filter form { margin: 0px; padding: 0px 0px; text-align: center; }
 #btquery { box-shadow: 0px 1px 2px rgba(0,0,0, 0.2); margin-top:10px; background-color: #1abc9c; padding: 6px 12px; color: #fff; 
