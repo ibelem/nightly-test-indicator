@@ -1,0 +1,3 @@
+# m h  dom mon dow   command
+02 7,8,9,10,12,14,16,19 * * * python /home/belem/webqa-dev/nightly_indicator/datahandler.py
+
