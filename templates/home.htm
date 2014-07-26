@@ -144,7 +144,7 @@
                         });
                     });
             </script>
-            <div id="container_{{ l[0][0].profile }}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+            <div id="container_{{ l[0][0].profile }}" style="max-width: 800px; height: 360px; margin: 20px auto"></div>
             {% for list in l[::-1] %}
                         <h5><a href='nightly/{{ list[0].device }}' title='{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{list[0].name }}'>{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</a></h5>
             <table class="reports">
@@ -301,7 +301,7 @@
                         });
                     });
             </script>
-            <div id="container_{{ t[0][0].profile }}" style="max-width: 800px; height: 400px; margin: 0 auto"></div>
+            <div id="container_{{ t[0][0].profile }}" style="max-width: 800px; height: 360px; margin: 20px auto"></div>
             {% for list in t[::-1] %}
                         <h5><a href='nightly/{{ list[0].device }}' title='{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{list[0].name }}'>{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</a></h5>
             <table class="reports">

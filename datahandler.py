@@ -18,7 +18,7 @@ mysql_host = '127.0.0.1'
 mysql_port = 3306
 mysql_database = 'crosswalk'
 mysql_user = 'root'
-mysql_password = 'zm179457'
+mysql_password = 'mysqlnightly'
 
 enable_rcategory_insert = 0
 enable_rcase_insert = 0
@@ -32,8 +32,7 @@ config = [protocol, host, path, auto_token, limit_amount]
 url = '%s://%s/%s/?auto_token=%s&limit_amount=%s' % tuple(config)
 filename = 'index.html?auto_token=' + \
     auto_token + '&limit_amount=' + limit_amount
-dir = '/home/belem/webqa-dev/nightly_indicator/data'
-
+dir = '/home/nightlytest/nightly_indicator/data'
 
 def jsonToDB(file):
     fp = open(dir + '/' + file)

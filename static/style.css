@@ -8,6 +8,7 @@ nav ul { list-style-type: none; margin: 0px; padding: 2px 0px 2px 0px; display: 
 nav ul li { display: inline-block; padding-left: 4px; }
 nav a:link, nav a:visited, nav a:active { text-decoration: underline; }
 .rnav { float:right; }
+rect {clear: both;}
 
 
 a:link, a:visited, a:active { color: #515151; text-decoration: none; }
@@ -25,7 +26,7 @@ table { width: 100%; text-align: center; border-collapse:collapse;}
 th, td { border-bottom: 1px solid #eee; padding: 4px 0px; max-width: 100px; overflow: hidden;} 
 td:hover { background-color: #f6f6f6;}
 form { margin: 10px auto; padding: 10px;}     
-footer { text-align: right; margin-top: -1px; }
+footer { text-align: right; margin-top: -1px; margin-bottom: 10px; }
 table td input[type=text] { width: 60px; }
 table td input[type=number] { width: 40px; }
 table td input[id^=name] { width: 100px;}

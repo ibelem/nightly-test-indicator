@@ -14,12 +14,12 @@ import torndb
 from tornado.template import Template
 
 from tornado.options import define, options
-define('port', default=8888, help='run the given port', type=int)
+define('port', default=8080, help='run the given port', type=int)
 
 define('mysql_host', default='127.0.0.1:3306', help='DB host')
 define('mysql_database', default='crosswalk', help='Crosswalk DB')
 define('mysql_user', default='root', help='DB User')
-define('mysql_password', default='zm179457', help='DB Password')
+define('mysql_password', default='mysqlnightly', help='DB Password')
 
 v_proxy_host = 'proxy.jf.intel.com'
 v_proxy_port = 911
@@ -57,8 +57,9 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers, **settings)
 
 def main():
+    tornado.options.parse_config_file("config.conf")
     tornado.options.parse_command_line()
-    http_server = tornado.httpserver.HTTPServer(Application())
+    http_server = tornado.httpserver.HTTPServer(Application(), xheaders=True)
     http_server.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()    
 
