@@ -4,7 +4,7 @@
      <div id='dailynote'> 
 {% for list in l[::-1] %}
 {% try %}{% if list[1] %}
-    {% if (list[0].total_cases - list[1].total_cases >0 ) and (list[0].total_cases - list[1].total_cases < 300) or (list[0].total_pass - list[1].total_pass < 0) or (list[0].total_fail - list[1].total_fail > 0) or (list[0].total_na - list[1].total_na > 0) or (float(list[0].total_pass)/list[0].total_cases  - float(list[1].total_pass)/list[1].total_cases < 0) %}
+    {% if (list[0].total_cases - list[1].total_cases <0 ) or (list[0].total_pass - list[1].total_pass < 0) or (list[0].total_fail - list[1].total_fail > 0) or (list[0].total_na - list[1].total_na > 0) or (float(list[0].total_pass)/list[0].total_cases  - float(list[1].total_pass)/list[1].total_cases < 0) %}
  
       <a href='nightly/{{ list[0].device }}' title='{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{list[0].name }}'>{{ list[0].name }}</a>
       {% if list[0].total_cases - list[1].total_cases >0 %}{% if abs(list[0].total_cases - list[1].total_cases) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}{{ list[0].total_cases - list[1].total_cases }}T</span>{% end %}
@@ -18,10 +18,10 @@
 {% end %}
 {% for list in t[::-1] %}
 {% try %}{% if list[1] %}
-    {% if (list[0].total_cases - list[1].total_cases >0 ) and (list[0].total_cases - list[1].total_cases < 300) or (list[0].total_pass - list[1].total_pass < 0) or (list[0].total_fail - list[1].total_fail > 0) or (list[0].total_na - list[1].total_na > 0) or (float(list[0].total_pass)/list[0].total_cases  - float(list[1].total_pass)/list[1].total_cases < 0) %}
+    {% if (list[0].total_cases - list[1].total_cases <0 ) or (list[0].total_pass - list[1].total_pass < 0) or (list[0].total_fail - list[1].total_fail > 0) or (list[0].total_na - list[1].total_na > 0) or (float(list[0].total_pass)/list[0].total_cases  - float(list[1].total_pass)/list[1].total_cases < 0) %}
  
       <a href='nightly/{{ list[0].device }}' title='{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{list[0].name }}'>{{ list[0].name }}</a>
-      {% if list[0].total_cases - list[1].total_cases >0 %}{% if abs(list[0].total_cases - list[1].total_cases) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}{{ list[0].total_cases - list[1].total_cases }}T</span>{% end %}
+      {% if list[0].total_cases - list[1].total_cases <0 %}{% if abs(list[0].total_cases - list[1].total_cases) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}{{ list[0].total_cases - list[1].total_cases }}T</span>{% end %}
       {% if list[0].total_pass - list[1].total_pass < 0  %}{% if abs(list[0].total_pass - list[1].total_pass) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}{{ list[0].total_pass - list[1].total_pass }}P</span>{% end %}
       {% if list[0].total_fail - list[1].total_fail > 0 %}{% if abs(list[0].total_fail - list[1].total_fail) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}+{{ list[0].total_fail - list[1].total_fail }}F</span>{% end %}
       {% if list[0].total_na - list[1].total_na > 0 %}{% if abs(list[0].total_na - list[1].total_na) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}+{{list[0].total_na - list[1].total_na}}B</span>{% end %}
