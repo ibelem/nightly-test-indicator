@@ -20,8 +20,8 @@ mysql_database = 'crosswalk'
 mysql_user = 'root'
 mysql_password = 'mysqlnightly'
 
-enable_rcategory_insert = 0
-enable_rcase_insert = 0
+enable_rcategory_insert = 1
+enable_rcase_insert = 1
 
 protocol = 'http'
 host = 'wrt-qa-report.sh.intel.com'

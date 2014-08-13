@@ -253,7 +253,7 @@
                     {% end %}
                 {% try %}
                 {% if list[1] %}
-                    <td class='{% if  list[0].total_pass - list[1].total_pass < 0 %}{% if list[0].total_pass - list[1].total_pass < 300 %}very{% end %} down{% else %}up{% end %}'>
+                    <td class='{% if list[0].total_pass - list[1].total_pass < 0 %}{% if list[0].total_pass - list[1].total_pass < 300 %}very{% end %} down{% else %}up{% end %}'>
                     {{ list[0].total_pass - list[1].total_pass }}</td>
                 {% end %}
                 {% except Exception, ex %}
@@ -304,6 +304,61 @@
                 </tr>
             </table>  
         {% end %}
+
+        
+        <table class="reportscategory">
+
+            <tr>
+                <th class="category" rowspan=2>Category</th>
+                <th colspan="3" class="colo">Total</th>
+                <th colspan="3">Pass</th>
+                <th colspan="3"class="colo">Fail</th>
+                <th colspan="3">Block</th>
+            </tr>
+
+            <tr>
+                <th class="colo">{{escape(l[0][1].build_id)}}</th>
+                <th class="colo">{{escape(l[0][0].build_id)}}</th>
+                <th class="colo">+/-</th>
+                <th>{{escape(l[0][1].build_id)}}</th>
+                <th>{{escape(l[0][0].build_id)}}</th>
+                <th>+/-</th>
+                <th class="colo">{{escape(l[0][1].build_id)}}</th>
+                <th class="colo">{{escape(l[0][0].build_id)}}</th>
+                <th class="colo">+/-</th>
+                <th>{{escape(l[0][1].build_id)}}</th>
+                <th>{{escape(l[0][0].build_id)}}</th>
+                <th>+/-</th>
+            </tr>
+
+            {% for lv in cate[0][::-1] %}
+                {% for lg in cate[1][::-1] %}
+                    {% if lg.name == lv.name %}
+                        <tr>
+                            <td class="categorytd" title="{{escape(lv.name)}}">{{escape(lv.name)}}</td>
+                            
+                            <td class="colo">{{lg.total_cases}} </td>
+                            <td class="colo">{{lv.total_cases}}</td>
+                            <td class="colo">{{lv.total_cases - lg.total_cases}}</td>
+
+                            <td>{{lg.total_pass}}</td>
+                            <td>{{lv.total_pass}}</td>
+                            <td>{{lv.total_pass - lg.total_pass}}</td>
+                            
+                            <td class="colo">{{lg.total_fail}}</td>
+                            <td class="colo">{{lv.total_fail}}</td>
+                            <td class="{% if abs(lv.total_fail - lg.total_fail) >0 %}{% if abs(lv.total_fail - lg.total_fail) > 10 %}warn{% else %}info{% end %}{% end %}">{{lv.total_fail - lg.total_fail}}</td>
+
+                            <td>{{lg.total_na}}</td>
+                            <td>{{lv.total_na}}</td>
+                            <td class="{% if abs(lv.total_na - lg.total_na) >0 %}{% if abs(lv.total_na - lg.total_na) > 10 %}warn{% else %}info{% end %}{% end %}">{{lv.total_na - lg.total_na}}</td>
+
+                        </tr>
+                    {% end %}
+
+                {% end %}
+            {% end %}
+        </table>  
 
         <script type='text/javascript' src='{{ static_url('highcharts/js/highcharts.js') }}'></script>
         <script type='text/javascript' src='{{ static_url('highcharts/js/modules/exporting.js') }}'></script>

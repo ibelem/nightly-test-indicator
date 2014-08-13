@@ -48,6 +48,7 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
 
         selected = ''
         num = 0
+        cate = []
         for device in devices:
             try:
                 deviceid = self.get_argument('id_' + str(device.id))
@@ -65,6 +66,21 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
                     dvar['di%s' % n] = str(device.id)
                     lvar['nr%s' % n] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' +
                                                      '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 16')
+
+                    # SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON (A.device='24' AND B.id='24') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 2
+                    
+                    if num == 1:
+                        qa_id = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + 
+                                                    '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 2')
+                        if not qa_id:
+                            cate= []
+                        for qid in qa_id:
+                            try:
+                                cateresults = self.db.query('SELECT * FROM crosswalk.reportcategory where qa_id = %s ORDER BY name ASC', qid.qa_id)
+                                cate.append(cateresults)
+                            except Exception, ex:
+                                print ex
+
                     if not lvar['nr%s' % n]:
                         raise tornado.web.HTTPError(404)
                     n = n + 1
@@ -77,7 +93,7 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
             for i in range(0, num):
                 l.append(lvar['nr%s' % i])
             self.render(
-                "nightlyquery.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=d, l=l)
+                "nightlyquery.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=d, l=l, cate=cate)
         else:
             self.redirect("/")
 
