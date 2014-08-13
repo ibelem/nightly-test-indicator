@@ -76,7 +76,7 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
                             cate= []
                         for qid in qa_id:
                             try:
-                                cateresults = self.db.query('SELECT * FROM crosswalk.reportcategory where qa_id = %s ORDER BY name ASC', qid.qa_id)
+                                cateresults = self.db.query('SELECT DISTINCT qa_id, qa_id_category, total_cases, name, total_pass, total_fail, total_na, total_measured, comments, note FROM crosswalk.reportcategory where qa_id = %s ORDER BY name ASC', qid.qa_id)
                                 cate.append(cateresults)
                             except Exception, ex:
                                 print ex

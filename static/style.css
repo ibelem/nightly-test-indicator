@@ -112,16 +112,15 @@ border-top: 1px solid #1abc9c; border-left: 1px solid #1abc9c; border-right: 1px
 #dailynote span {  padding: 0px 2px;  margin: 2px 0px;  text-decoration: none; display: inline-block; }
 
 
-.info, td.info { color: #d35400; border:0px dotted #e67e22;}  
-.info:hover { background-color:#e67e22; color: #fff;  }  
-.warn { background-color: #e74c3c; color: #fff; }  
-.warn:hover { background-color: #c0392b; color: #fff;  }  
-.up { color: rgba(0, 128, 0, 0.8); }
-.up:hover { background-color: rgba(0, 128, 0, 0.8); color:#fff; }
+.info { background-color:rgba(230, 126, 34, 1.0); color: #fff;}  
+.info:hover { background-color:rgba(211, 84, 0, 1.0); color: #fff;  }  
+.warn { background-color: rgba(231, 76 , 60, 1.0); color: #fff; }  
+.warn:hover { background-color:rgba(192, 57, 43, 1.0); color: #fff;  }  
+.up { background-color: rgba(26, 188, 156, 1.0); color:#fff;  }
+.up:hover { background-color: rgba(22, 160, 133, 1.0); color:#fff; }
 
 
- 
- .reportscategory { border: 1px solid #eee; margin-top: 10px; margin-bottom: 10px;}
+ .reportscategory { border: 1px solid #eee; margin-top: 10px; margin-bottom: 10px; font-size: 9px;}
 .reportscategory th, .reportscategory td { border-left: 1px solid #efefef; padding: 1px 0px; font-weight: normal;}
 .reportscategory th { padding: 3px 0px 2px 0px; max-width: 34px; }
 .reportscategory tr:nth-child(even) { background-color: #fbfbfb; }
