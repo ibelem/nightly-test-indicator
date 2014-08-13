@@ -305,30 +305,33 @@
             </table>  
         {% end %}
  
+        {% if num == 1%}
         {% try %}
-        <table class="reportscategory">
-            <tr>
-                <th class="category" rowspan=2>Category</th>
-                <th colspan="3" class="colo">Total</th>
-                <th colspan="3">Pass</th>
-                <th colspan="3"class="colo">Fail</th>
-                <th colspan="3">Block</th>
-            </tr>
+            {% if cate[0][::-1] %}
+                <table class="reportscategory">
+                    <tr>
+                        <th class="category" rowspan=2>Category</th>
+                        <th colspan="3" class="colo">Total</th>
+                        <th colspan="3">Pass</th>
+                        <th colspan="3"class="colo">Fail</th>
+                        <th colspan="3">Block</th>
+                    </tr>
 
-            <tr>
-                <th class="colo">{{escape(l[0][1].build_id)}}</th>
-                <th class="colo">{{escape(l[0][0].build_id)}}</th>
-                <th class="colo">+/-</th>
-                <th>{{escape(l[0][1].build_id)}}</th>
-                <th>{{escape(l[0][0].build_id)}}</th>
-                <th>+/-</th>
-                <th class="colo">{{escape(l[0][1].build_id)}}</th>
-                <th class="colo">{{escape(l[0][0].build_id)}}</th>
-                <th class="colo">+/-</th>
-                <th>{{escape(l[0][1].build_id)}}</th>
-                <th>{{escape(l[0][0].build_id)}}</th>
-                <th>+/-</th>
-            </tr>
+                    <tr>
+                        <th class="colo">{{escape(l[0][1].build_id)}}</th>
+                        <th class="colo">{{escape(l[0][0].build_id)}}</th>
+                        <th class="colo">+/-</th>
+                        <th>{{escape(l[0][1].build_id)}}</th>
+                        <th>{{escape(l[0][0].build_id)}}</th>
+                        <th>+/-</th>
+                        <th class="colo">{{escape(l[0][1].build_id)}}</th>
+                        <th class="colo">{{escape(l[0][0].build_id)}}</th>
+                        <th class="colo">+/-</th>
+                        <th>{{escape(l[0][1].build_id)}}</th>
+                        <th>{{escape(l[0][0].build_id)}}</th>
+                        <th>+/-</th>
+                    </tr>
+            {% end %}
 
             {% for lv in cate[0][::-1] %}{% try %}{% for lg in cate[1][::-1] %}{% if lg.name == lv.name %}
                                 <tr><td class="categorytd" title="{{escape(lv.name)}}" id='{{lv.qa_id_category}}'><a title="{{lv.qa_id}}/{{lv.qa_id_category}}">{{escape(lv.name)}}</a></td>
@@ -372,6 +375,7 @@
             </tr>{% end %}{% end %}{% except Exception, ex %}{% end %}{% end %}
         </table> 
 
+        {% end %}
         {% end %}
  
         <script type='text/javascript' src='{{ static_url('highcharts/js/highcharts.js') }}'></script>

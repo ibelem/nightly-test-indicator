@@ -93,7 +93,7 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
             for i in range(0, num):
                 l.append(lvar['nr%s' % i])
             self.render(
-                "nightlyquery.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=d, l=l, cate=cate)
+                "nightlyquery.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=d, l=l, cate=cate, num=num)
         else:
             self.redirect("/")
 
