@@ -27,7 +27,7 @@ protocol = 'http'
 host = 'wrt-qa-report.sh.intel.com'
 path = 'api/reports'
 auto_token = 'NL1sbHvpDadoM4jrml7A'
-limit_amount = '20'
+limit_amount = '24'
 config = [protocol, host, path, auto_token, limit_amount]
 url = '%s://%s/%s/?auto_token=%s&limit_amount=%s' % tuple(config)
 filename = 'index.html?auto_token=' + \
@@ -68,18 +68,8 @@ def jsonToDB(file):
         hardware = var['hardware'].strip()
         deviceid = 0
         result_id = ''
-        if hardware.lower() == 'nightly' and profile.lower() == 'android':
-            deviceid = 24
-        elif hardware.lower() == 'temp' and profile.lower() == 'android':
-            deviceid = 14
-        elif hardware.lower() == 'nightly' and profile.lower() == 'tizen':
-            deviceid = 47
-        elif hardware.lower() == 'temp' and profile.lower() == 'tizen':
-            deviceid = 0
-        elif hardware.lower().find('temp ') >= 0 or hardware.lower().find('nightly ') >= 0:
-            print 'H'
-            hardware2 = hardware.replace(
-                'Temp', '').replace('Nightly', '').strip()
+        if hardware.lower().find('nightly ') >= 0:
+            hardware2 = hardware.replace('Nightly', '').strip()
             hardware = hardware.replace(hardware2, '').strip()
             print hardware2
             try:

@@ -28,9 +28,27 @@ class NightlyQueryGetHandler(tornado.web.RequestHandler):
         if not l:
             self.render("nightlyquerygetno.htm",
                         title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
-        self.render(
-            "nightlyqueryget.htm", title="Crosswalk Nightly Test Report by Devices",
-            devices=devices, d=entry_id, list=l)
+
+        self.render("nightlyquerygetredirect.htm",
+                        title="Crosswalk Nightly Test Report by Devices", devices=devices, id=entry_id)
+
+#
+#        cate = []
+#        num = 1
+#        qa_id = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' +  
+#                        '(A.device=' + str(entry_id) + ' AND B.id=' + str(entry_id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 2')
+#        if not qa_id:
+#            cate = []
+#        for qid in qa_id:
+#            try:
+#                cateresults = self.db.query('SELECT DISTINCT qa_id, qa_id_category, total_cases, name, total_pass, total_fail, total_na, total_measured, comments, note FROM crosswalk.reportcategory where qa_id = %s ORDER BY name ASC', qid.qa_id)
+#                cate.append(cateresults)
+#            except Exception, ex:
+#                print ex
+#
+#        self.render(
+#            "nightlyqueryget.htm", title="Crosswalk Nightly Test Report by Devices",
+#            devices=devices, d=entry_id, l=l, cate=cate, num=num)
 
 
 class NightlyQueryHandler(tornado.web.RequestHandler):
