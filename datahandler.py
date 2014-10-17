@@ -24,7 +24,7 @@ enable_rcategory_insert = 1
 enable_rcase_insert = 1
 
 protocol = 'http'
-host = 'wrt-qa-report.sh.intel.com'
+host = 'wrt-qa-report.cnn.com'
 path = 'api/reports'
 auto_token = 'NL1sbHvpDadoM4jrml7A'
 limit_amount = '24'
