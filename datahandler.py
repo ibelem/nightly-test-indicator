@@ -68,10 +68,21 @@ def jsonToDB(file):
         hardware = var['hardware'].strip()
         deviceid = 0
         result_id = ''
-        if hardware.lower().find('nightly ') >= 0:
+
+        if hardware.lower().find('cordova') >= 0:
+            hardware2 = hardware.replace('Nightly Cordova', '').strip()
+            hardware = hardware.replace(hardware2, '').strip()
+            print hardware2 + '*'
+            try:
+                result_id = db.query(
+                    'SELECT DISTINCT * FROM crosswalk.device WHERE name=%s', hardware2)
+                deviceid = result_id[0].id
+            except Exception, ex:
+                print ex
+        elif hardware.lower().find('nightly ') >= 0:
             hardware2 = hardware.replace('Nightly', '').strip()
             hardware = hardware.replace(hardware2, '').strip()
-            print hardware2
+            print hardware2 + '$'
             try:
                 result_id = db.query(
                     'SELECT DISTINCT * FROM crosswalk.device WHERE name=%s', hardware2)
@@ -80,6 +91,7 @@ def jsonToDB(file):
                 print ex
         else:
             print '-'
+
         weeknum = var['weeknum']
         release = var['release'].strip()
         title = var['title'].strip()
@@ -174,6 +186,7 @@ def downloadJSONFile():
 def main():
     downloadJSONFile()
     jsonToDB(renameJSONFile())
+    #jsonToDB('2014-08-15_07-03-30_113457.json')
 
 if __name__ == '__main__':
     main()

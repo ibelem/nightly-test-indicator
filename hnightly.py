@@ -24,7 +24,7 @@ class NightlyQueryGetHandler(tornado.web.RequestHandler):
             self.render("nightlyquerygetno.htm",
                         title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
         l = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' +
-                          '(A.device=' + str(entry_id) + ' AND B.id=' + str(entry_id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 16')
+                          '(A.device=' + str(entry_id) + ' AND B.id=' + str(entry_id) + ') ORDER BY A.id DESC LIMIT 12')
         if not l:
             self.render("nightlyquerygetno.htm",
                         title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
@@ -83,13 +83,13 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
                     print str(deviceid)
                     dvar['di%s' % n] = str(device.id)
                     lvar['nr%s' % n] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' +
-                                                     '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 16')
+                                                     '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.id DESC LIMIT 12')
 
                     # SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON (A.device='24' AND B.id='24') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 2
                     
                     if num == 1:
                         qa_id = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + 
-                                                    '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 2')
+                                                    '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ') ORDER BY A.id DESC DESC LIMIT 2')
                         if not qa_id:
                             cate= []
                         for qid in qa_id:

@@ -29,12 +29,12 @@ class HomeHandler(tornado.web.RequestHandler):
         tizen = self.db.query(
             'SELECT DISTINCT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary) and platform = \'tizen\'')
         build = self.db.query(
-            'SELECT DISTINCT build_id FROM crosswalk.reportsummary AS A, crosswalk.device AS B WHERE A.device = B.id ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 6')
+            'SELECT DISTINCT build_id FROM crosswalk.reportsummary AS A, crosswalk.device AS B WHERE A.device = B.id ORDER BY A.id DESC LIMIT 6')
 
         for a in android:
             try:
                 avar['mr%s' % m] = self.db.query(
-                    'SELECT DISTINCT * FROM crosswalk.reportsummary AS A, crosswalk.device AS B WHERE (A.profile=%s AND A.device = B.id) AND B.id=%s ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 6', a.platform, a.id)
+                    'SELECT DISTINCT * FROM crosswalk.reportsummary AS A, crosswalk.device AS B WHERE (A.profile=%s AND A.device = B.id) AND B.id=%s ORDER BY A.id DESC LIMIT 6', a.platform, a.id)
                 l.append(avar['mr%s' % m])
                 m = m + 1
             except Exception, ex:
@@ -43,7 +43,7 @@ class HomeHandler(tornado.web.RequestHandler):
         for b in tizen:
             try:
                 avar['nr%s' % n] = self.db.query(
-                    'SELECT DISTINCT * FROM crosswalk.reportsummary AS A, crosswalk.device AS B WHERE (A.profile=%s AND A.device = B.id) AND B.id=%s ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 6', b.platform, b.id)
+                    'SELECT DISTINCT * FROM crosswalk.reportsummary AS A, crosswalk.device AS B WHERE (A.profile=%s AND A.device = B.id) AND B.id=%s ORDER BY A.id DESC LIMIT 6', b.platform, b.id)
                 t.append(avar['nr%s' % n])
                 n = n + 1
             except Exception, ex:

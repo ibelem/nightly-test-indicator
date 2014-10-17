@@ -34,7 +34,7 @@ class ReportCustomizeHandler(tornado.web.RequestHandler):
         try:
             if hardware.strip() != '' and hardware.strip() != '0' and hardware != 0:
                 l = self.db.query(
-                    'SELECT * from crosswalk.reportsummary WHERE profile=%s AND darchitecture=%s AND branch=%s AND hardware=%s ORDER BY build_id DESC, qa_id DESC LIMIT 16', profile, architecture, branch, hardware)
+                    'SELECT * from crosswalk.reportsummary WHERE profile=%s AND darchitecture=%s AND branch=%s AND hardware=%s order by id DESC LIMIT 12', profile, architecture, branch, hardware)
                 if not l:
                     raise tornado.web.HTTPError(404)
                 self.render(

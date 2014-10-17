@@ -93,7 +93,7 @@
                          {% if (l[0].hardware.lower().find('webapi') >= 0) or (l[0].hardware.lower() == 'nightly') or (l[0].hardware.lower() == 'temp') %}
                             max: 10000,
                          {% else %}
-                            max: 500,
+                            max: 1000,
                          {% end %}
                          title: {
                              text: 'Number of TCs',
@@ -121,7 +121,7 @@
                              }
      
                          },
-                         min: 25,
+                         min: 0,
                          max: 100,
                          opposite: true,
                      }],
