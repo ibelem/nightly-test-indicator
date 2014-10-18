@@ -1,0 +1,11 @@
+<form id='autosub' method="post" action="/nightlycordova/querycordova">
+    <input type="hidden" name="id_{{ id }}" id="id_{{ id }}" value="id_{{ id }}"></input>
+    <input type="submit" value="Go" >
+</form> 
+
+<script type="text/javascript">
+window.onload = function() {
+    document.getElementById('autosub').submit();
+}
+</script>
+

@@ -1,0 +1,255 @@
+{% extends "main.htm" %}
+
+{% block body %}
+     <div id='dailynote'> 
+{% for list in l[::-1] %}
+{% try %}{% if list[1] %}
+    {% if (list[0].total_cases - list[1].total_cases <0 ) or (list[0].total_pass - list[1].total_pass < 0) or (list[0].total_fail - list[1].total_fail > 0) or (list[0].total_na - list[1].total_na > 0) or (float(list[0].total_pass)/list[0].total_cases  - float(list[1].total_pass)/list[1].total_cases < 0) %}
+ 
+      <a href='nightlycordova/{{ list[0].device }}' title='{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{list[0].name }}'>{{ list[0].name }}</a>
+      {% if list[0].total_cases - list[1].total_cases <0 %}{% if abs(list[0].total_cases - list[1].total_cases) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}{{ list[0].total_cases - list[1].total_cases }}T</span>{% end %}
+      {% if list[0].total_pass - list[1].total_pass < 0  %}{% if abs(list[0].total_pass - list[1].total_pass) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}{{ list[0].total_pass - list[1].total_pass }}P</span>{% end %}
+      {% if list[0].total_fail - list[1].total_fail > 0 %}{% if abs(list[0].total_fail - list[1].total_fail) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}+{{ list[0].total_fail - list[1].total_fail }}F</span>{% end %}
+      {% if list[0].total_na - list[1].total_na > 0 %}{% if abs(list[0].total_na - list[1].total_na) > 300 %}<span class='warn'>{%else%}<span class='info'>{%end%}+{{list[0].total_na - list[1].total_na}}B</span>{% end %}
+       {% if float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases < 0 %}
+      {% if abs((float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases) * 100) > 0.5 %}{% if abs((float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases) * 100) > 3 %}<span class='warn'>{% else %}<span class='info'>{% end %}{{ format(float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases, '.1%') }}PR</span>{% end %}{% end %}
+  {% end %}{% end %}
+{% except Exception, ex %}{% end %}
+{% end %}
+
+ 
+    </div>
+    <div id='filter'>
+        <div class='csectionone'>
+            <form method='post' action='/nightlycordova/querycordova' id='formquery'>
+                <table class='deviceselect'>
+                    <tr>
+                        <th>IA Phone</th>
+                        <th>ARM Phone</th>
+                        <th>IA Tablet</th>
+                        <th>ARM Tablet</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'phone' %}
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
+                                {% end %}
+                            {% end %}                        
+                        </td>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'phone' %}
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
+                                {% end %}
+                            {% end %}                     
+                        </td>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'android' and device.architecture.lower() == 'ia' and device.type.lower() == 'tablet' %}
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
+                                {% end %}
+                            {% end %} 
+                        </td>
+                        <td>
+                            {% for device in devices %}
+                                {% if device.platform.lower() == 'android' and device.architecture.lower() == 'arm' and device.type.lower() == 'tablet' %}
+                                    <input name="id_{{ device.id }}" id="id_{{ device.id }}" type="checkbox" value="{{ escape(device.name) }}" class="cbselector"><label>{{ escape(device.name) }}</label><br/>
+                                {% end %}
+                            {% end %} 
+                        </td>
+                    </tr>
+                </table>
+                <!-- <input id='btquery' type='submit' text='Query' value='Query'> -->
+            </form>
+        </div>
+    </div>
+    <article>
+        <div id='distype'>
+            <ul id='tog' class='notdisplay'>
+                <li id='chart'>Chart</li>
+                <li id='data'>Data</li>
+            </ul>
+            <ul id='ind'>
+                <li id='plus'>+</li>
+                <li id='updown'>&uarr;</li>        
+            </ul>
+        </div>   
+            <script type="text/javascript">
+                $(function () {
+                        $('#container_{{ l[0][0].profile }}').highcharts({
+                            title: {
+                                text: 'Cordova Nightly Test on {{ l[0][0].profile }} Pass Rates (%)',
+                                x: -20 //center
+                            },
+                            subtitle: {
+                                text: 'Source: http://wrt-qa-report.sh.intel.com/v2/{{ l[0][0].profile }}',
+                                x: -20
+                            },
+                            xAxis: {
+                                categories: [
+                                            {% for lv in build[::-1] %}
+                                             '{{ lv.build_id }}', 
+                                            {% end %}
+                                ]
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Pass Rate (%)'
+                                },
+                                min: 0,
+                                max: 100,
+                                plotLines: [{
+                                    value: 0,
+                                    width: 1,
+                                }]
+                            },
+                            tooltip: {
+                                valueSuffix: '%'
+                            },
+                            legend: {
+                                layout: 'vertical',
+                                align: 'right',
+                                verticalAlign: 'middle',
+                                borderWidth: 0
+                            },
+                            series: [
+                            {% for list in l[::-1] %}
+                            {
+                                name: '{{list[0].name}}',
+                                type: 'spline',
+                                data: [
+                                        {% if len(list) == 0 %}
+                                            '','','','','','',
+                                        {% elif len(list) == 1 %}
+                                            '','','','','',
+                                        {% elif len(list) == 2 %}
+                                            '','','','',
+                                        {% elif len(list) == 3 %}
+                                            '','','',
+                                        {% elif len(list) == 4 %}
+                                            '','',
+                                        {% elif len(list) == 5 %}
+                                            '',
+                                        {% else %}
+                                        {% end %}
+
+                                        {% for lv in list[::-1] %}
+                                                {{ round(float(lv.total_pass)*100/lv.total_cases, 0) }},
+                                        {% end %}
+
+                                        /* {% for lb in build[::-1] %}
+                                            {% for lv in list[::-1] %}
+                                                {% if lb.build_id == lv.build_id %}
+                                                    {{ round(float(lv.total_pass)*100/lv.total_cases, 0) }},
+                                                {% end %}
+                                            {% end %}
+                                        {% end %}
+                                        */
+ 
+                                ]
+                            },
+                            {% end %}]
+                        });
+                    });
+            </script>
+            <div id="container_{{ l[0][0].profile }}" style="max-width: 800px; height: 360px; margin: 20px auto"></div>
+            {% for list in l[::-1] %}
+                        <h5><a href='nightlycordova/{{ list[0].device }}' title='{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{list[0].name }}'>{{ list[0].profile }} {{ list[0].architecture }} / {{ list[0].branch }} / {{ list[0].name }}</a></h5>
+            <table class="reports">
+                <tr>
+                    <th></th>
+                    {% for lv in list[::-1] %}
+                    <th><a href='http://wrt-qa-report.sh.intel.com/v2/{{ lv.profile }}/{% if (lv.darchitecture.lower() =="common") or (lv.darchitecture.lower() =="generic") %}Tizen {%end%}{{ lv.darchitecture }} {{ lv.branch }}/{{ lv.hardware }} {{ lv.name }}/{{ lv.qa_id }}'>{{escape(lv.build_id)}}</a></th>
+                    {% end %}
+                    <th>+/-</th>
+                </tr>
+                
+                <tr>
+                    <td>Total TC</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ lv.total_cases }}</td>
+                    {% end %}
+                    {% try %}
+                    {% if list[1] %}
+                        <td class='{% if list[0].total_cases - list[1].total_cases < 0 %}{% if abs(list[0].total_cases - list[1].total_cases) > 300 %}warn{% end %} info{% else %}up{% end %}'>
+                        {{ list[0].total_cases - list[1].total_cases }}</td>
+                    {% end %}
+                    {% except Exception, ex %}
+                    <td>-</td>
+                    {% end %}
+                </tr>
+                <tr>
+                    <td>Passed</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ lv.total_pass }}</td>
+                    {% end %}
+{% try %}
+{% if list[1] %}
+                    <td class='{% if list[0].total_pass - list[1].total_pass < 0  %}{% if abs(list[0].total_pass - list[1].total_pass) > 300 %}warn{%else%} info {%end%} {% else %}up{% end %}'>
+                    {{ list[0].total_pass - list[1].total_pass }}</td>
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
+                </tr>
+                <tr>
+                    <td>Failed</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ lv.total_fail }}</td>
+                    {% end %}
+{% try %}
+{% if list[1] %}
+                   <td class='{% if list[0].total_fail - list[1].total_fail > 0 %}{% if abs(list[0].total_fail - list[1].total_fail) > 300 %}warn{%else%} info {%end%}{% else %}up{% end %}'>
+                    {{ list[0].total_fail - list[1].total_fail }}</td>
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
+                </tr>
+                <tr>
+                    <td>Blocked</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ lv.total_na }}</td>
+                    {% end %}
+{% try %}
+{% if list[1] %}
+                    <td class='{% if list[0].total_na - list[1].total_na > 0 %}{% if abs(list[0].total_na - list[1].total_na) > 300 %}warn{%else%} info {%end%}{% else %}up{% end %}'>
+                    {{list[0].total_na - list[1].total_na}}</td>
+
+
+                      
+
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
+                </tr>
+                <tr>
+                    <td>Pass rate</td>
+                    {% for lv in list[::-1] %}
+                    <td>{{ format(float(lv.total_pass)/lv.total_cases, '.0%') }}</td>
+                    {% end %}
+{% try %}
+{% if list[1] %}
+                    <td class='{% if float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases < 0 %}
+      {% if abs((float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases) * 100) > 0.5 %}{% if abs((float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases) * 100) > 3 %}warn{% else %} info {% end %}{% end %}{% else %}up{% end %}'>{{ format(float(list[0].total_pass)/list[0].total_cases - float(list[1].total_pass)/list[1].total_cases, '.1%') }}</td>
+{% end %}
+{% except Exception, ex %}
+<td>-</td>
+{% end %}
+                </tr>
+ 
+            </table> 
+
+            {% end %}
+ 
+ 
+ 
+        <script type='text/javascript' src='{{ static_url('highcharts/js/highcharts.js') }}'></script>
+        <script type='text/javascript' src='{{ static_url('highcharts/js/modules/exporting.js') }}'></script>
+        <script type="text/javascript" src='{{ static_url('ui.js') }}'></script>
+
+    </article>
+{% end %}
+

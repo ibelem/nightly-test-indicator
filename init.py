@@ -6,7 +6,7 @@ import tornado.httpclient
 import tornado.httpserver
 import tornado.options
 import os
-import hhome, hnightly, hdevice, hreport
+import hhome, hnightly, hdevice, hreport, hhomecordova, hnightlycordova
 # pip install torndb
 # apt-get install python-mysqldb
 import torndb
@@ -31,6 +31,9 @@ class Application(tornado.web.Application):
             (r'/nightly/query', hnightly.NightlyQueryHandler),
             (r'/nightly/([0-9]+)', hnightly.NightlyQueryGetHandler),
             (r'/nightly', hnightly.NightlyHandler),
+            (r'/cordova', hhomecordova.HomeHandler),
+            (r'/nightlycordova/querycordova', hnightlycordova.NightlyQueryHandler),
+            (r'/nightlycordova/([0-9]+)', hnightlycordova.NightlyQueryGetHandler),
             (r'/device', hdevice.DeviceManagementHandler),
             (r'/device/edit/([0-9]+)', hdevice.DeviceManagementEditHandler),
             (r'/device/add', hdevice.DeviceManagementAddPostHandler),

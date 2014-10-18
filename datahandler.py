@@ -24,10 +24,10 @@ enable_rcategory_insert = 1
 enable_rcase_insert = 1
 
 protocol = 'http'
-host = 'wrt-qa-report.cnn.com'
+host = 'wrt-qa-report.sh.intel.com'
 path = 'api/reports'
 auto_token = 'NL1sbHvpDadoM4jrml7A'
-limit_amount = '24'
+limit_amount = '40'
 config = [protocol, host, path, auto_token, limit_amount]
 url = '%s://%s/%s/?auto_token=%s&limit_amount=%s' % tuple(config)
 filename = 'index.html?auto_token=' + \
@@ -72,7 +72,17 @@ def jsonToDB(file):
         if hardware.lower().find('cordova') >= 0:
             hardware2 = hardware.replace('Nightly Cordova', '').strip()
             hardware = hardware.replace(hardware2, '').strip()
-            print hardware2 + '*'
+            print hardware2 + '****** cordova ******'
+            try:
+                result_id = db.query(
+                    'SELECT DISTINCT * FROM crosswalk.device WHERE name=%s', hardware2)
+                deviceid = result_id[0].id
+            except Exception, ex:
+                print ex
+        elif hardware.lower().find('webdriver ') >= 0:
+            hardware2 = hardware.replace('Nightly WebDriver', '').strip()
+            hardware = hardware.replace(hardware2, '').strip()
+            print hardware2 + '****** webdriver ******'
             try:
                 result_id = db.query(
                     'SELECT DISTINCT * FROM crosswalk.device WHERE name=%s', hardware2)

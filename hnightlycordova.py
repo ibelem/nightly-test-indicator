@@ -14,23 +14,23 @@ class NightlyQueryGetHandler(tornado.web.RequestHandler):
             host=options.mysql_host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password)
         devices = self.db.query(
-            'SELECT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary)')
+            'SELECT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary WHERE crosswalk.reportsummary.hardware LIKE "Nightly Cordova")')
         if not devices:
             self.render("nightlyquerygetno.htm",
-                        title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
+                        title="Crosswalk based Cordova Nightly Test Report", devices=devices, d=entry_id)
         device = self.db.query(
             'SELECT * FROM crosswalk.device WHERE id = %s', entry_id)
         if not device:
-            self.render("nightlyquerygetno.htm",
-                        title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
+            self.render("nightlyquerygetnocordova.htm",
+                        title="Crosswalk based Cordova Nightly Test Report", devices=devices, d=entry_id)
         l = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' +
-                          '(A.device=' + str(entry_id) + ' AND B.id=' + str(entry_id) + ') ORDER BY A.qa_id DESC LIMIT 12')
+                          '(A.device=' + str(entry_id) + ' AND B.id=' + str(entry_id) + ') ORDER BY A.id DESC LIMIT 12')
         if not l:
-            self.render("nightlyquerygetno.htm",
-                        title="Crosswalk Nightly Test Report by Devices", devices=devices, d=entry_id)
+            self.render("nightlyquerygetnocordova.htm",
+                        title="Crosswalk based Cordova Nightly Test Report", devices=devices, d=entry_id)
 
-        self.render("nightlyquerygetredirect.htm",
-                        title="Crosswalk Nightly Test Report by Devices", devices=devices, id=entry_id)
+        self.render("nightlyquerygetredirectcordova.htm",
+                        title="Crosswalk based Cordova Nightly Test Report", devices=devices, id=entry_id)
 
 #
 #        cate = []
@@ -60,7 +60,7 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
             user=options.mysql_user, password=options.mysql_password)
 
         devices = self.db.query(
-            'SELECT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary)')
+            'SELECT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary WHERE crosswalk.reportsummary.hardware LIKE "Nightly Cordova")')
         if not devices:
             raise tornado.web.HTTPError(404)
 
@@ -83,13 +83,13 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
                     print str(deviceid)
                     dvar['di%s' % n] = str(device.id)
                     lvar['nr%s' % n] = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' +
-                                                     '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ' AND A.hardware NOT LIKE %s) ORDER BY A.qa_id DESC LIMIT 12', '%Cordova')
+                                                     '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ' AND A.hardware LIKE %s) ORDER BY A.qa_id DESC LIMIT 12', '%Cordova')
 
                     # SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON (A.device='24' AND B.id='24') ORDER BY A.build_id DESC, A.qa_id DESC LIMIT 2
                     
                     if num == 1:
                         qa_id = self.db.query('SELECT DISTINCT * FROM crosswalk.reportsummary AS A INNER JOIN crosswalk.device AS B ON ' + 
-                                                    '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ' AND A.hardware NOT LIKE %s) ORDER BY A.qa_id DESC LIMIT 2')
+                                                    '(A.device=' + str(device.id) + ' AND B.id=' + str(device.id) + ' AND A.hardware LIKE %s) ORDER BY A.qa_id DESC LIMIT 2', '%Cordova')
                         if not qa_id:
                             cate= []
                         for qid in qa_id:
@@ -111,9 +111,9 @@ class NightlyQueryHandler(tornado.web.RequestHandler):
             for i in range(0, num):
                 l.append(lvar['nr%s' % i])
             self.render(
-                "nightlyquery.htm", title="Crosswalk Nightly Test Report by Devices", devices=devices, d=d, l=l, cate=cate, num=num)
+                "nightlyquerycordova.htm", title="Crosswalk based Cordova Nightly Test Report", devices=devices, d=d, l=l, cate=cate, num=num)
         else:
-            self.redirect("/")
+            self.redirect("/cordova")
 
 
 class NightlyHandler(tornado.web.RequestHandler):
@@ -123,7 +123,7 @@ class NightlyHandler(tornado.web.RequestHandler):
             host=options.mysql_host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password)
         devices = self.db.query(
-            'SELECT * FROM crosswalk.device ORDER BY platform DESC')
+            'SELECT * FROM crosswalk.device WHERE id IN (SELECT crosswalk.reportsummary.device from crosswalk.reportsummary WHERE crosswalk.reportsummary.hardware LIKE "nightly cordova")')
         platforms = self.db.query(
             'SELECT DISTINCT platform FROM crosswalk.device')
         architectures = self.db.query(
@@ -135,5 +135,5 @@ class NightlyHandler(tornado.web.RequestHandler):
         if not devices:
             raise tornado.web.HTTPError(404)
         self.render(
-            "nightly.htm", title="Crosswalk Nightly Test - Execution Plan", devices=devices,
+            "nightlycordova.htm", title="Crosswalk based Cordova Nightly Test", devices=devices,
             platforms=platforms, architectures=architectures, priorities=priorities, types=types, sdks=sdks)
