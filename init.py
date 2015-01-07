@@ -19,9 +19,9 @@ define('port', default=8080, help='run the given port', type=int)
 define('mysql_host', default='127.0.0.1:3306', help='DB host')
 define('mysql_database', default='crosswalk', help='Crosswalk DB')
 define('mysql_user', default='root', help='DB User')
-define('mysql_password', default='mysqlnightly', help='DB Password')
+define('mysql_password', default='', help='DB Password')
 
-v_proxy_host = 'proxy.jf.intel.com'
+v_proxy_host = ''
 v_proxy_port = 911
 
 class Application(tornado.web.Application):
